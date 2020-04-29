@@ -1,4 +1,10 @@
 <?php
+ini_set('error_reporting', E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+
+//phpinfo();
+//die();
 
 use App\controllers\ErrorController;
 use App\controllers\MigrationController;
@@ -9,6 +15,8 @@ use App\routes\Route;
 
 require 'config.php';
 require 'vendor/autoload.php';
+
+session_start();
 
 $capsule = new CapsuleInstance();
 
@@ -24,6 +32,11 @@ if ($controller_name === 'TaskController') {
             $_POST['email'] ?? '',
             $_POST['name'] ?? '',
             $_POST['description'] ?? ''
+        );
+        $redirect = '<meta http-equiv="refresh" content="0; url=/">';
+    } elseif ($action_name === 'setSort') {
+        $result = TaskController::setSort(
+            $_POST['sort'] ?? 'id'
         );
         $redirect = '<meta http-equiv="refresh" content="0; url=/">';
     }
@@ -78,9 +91,8 @@ if ($controller_name === 'TaskController') {
             ?>
 
             <div class="links">
-                <a href="/task/index" target="_blank">task/index</a>
-                <a href="/user/index" target="_blank">user/index</a>
-                <a href="/" target="_blank">migration/refresh</a><!-- /migration/refresh -->
+                <a href="/task/index">task/index</a>
+                <a href="/">migration/refresh</a><!-- /migration/refresh -->
                 <a href="https://github.com/yakoffka/beeTest" target="_blank">GitHub</a>
             </div>
 

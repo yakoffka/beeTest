@@ -5,3 +5,5 @@ define('DB_HOST', 'localhost');
 define('DB_NAME', 'bt');
 define('DB_USER', 'homestead');
 define('DB_PASSWORD', 'secret');
+define('APP_NAME', 'test job');
+

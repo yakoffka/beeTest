@@ -2,20 +2,22 @@
 if (count($tasks) > 1) {
 
     $backEnabled = $forwardEnabled = '';
-    if ($currPage === 1) {
-        $backEnabled = ' disabled';
-        $aBack = '<span class="page-link" aria-hidden="true">‹</span>';
-        $aForward = '
+    $aForward = '
         <a class="page-link" 
             href="/task/index?page=' . count($tasks) . '" rel="next" 
             aria-label="Вперёд »">›</a>';
-    } elseif ($currPage === count($tasks)) {
-        $forwardEnabled = ' disabled';
-        $aForward = '<span class="page-link" aria-hidden="true">›</span>';
-        $aBack = '
+    $aBack = '
         <a class="page-link' . $forwardEnabled . '" 
                     href="/task/index?page=' . count($tasks) . '" rel="next" 
                     aria-label="« Назад">‹</a>';
+
+    if ($currPage === 1) {
+        $backEnabled = ' disabled';
+        $aBack = '<span class="page-link" aria-hidden="true">‹</span>';
+
+    } elseif ($currPage === count($tasks)) {
+        $forwardEnabled = ' disabled';
+        $aForward = '<span class="page-link" aria-hidden="true">›</span>';
     }
 
     echo '

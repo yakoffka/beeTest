@@ -1,0 +1,23 @@
+{
+    "name": "vagrant/bee-test",
+    "description": "test task",
+    "type": "project",
+    "require": {
+        "illuminate/database": "7.9.2.*"
+    }
+    ,
+    "require-dev": {
+        "roave/security-advisories": "dev-master"
+    },
+    "authors": [
+        {
+            "name": "yakoffka",
+            "email": "yagithub@mail.ru"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "App\\": "app"
+        }
+    }
+}

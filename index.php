@@ -1,5 +1,6 @@
 <?php
 
+use App\controllers\ErrorController;
 use App\controllers\TaskController;
 use App\controllers\UserController;
 use App\databases\CapsuleInstance;
@@ -13,9 +14,11 @@ $capsule = new CapsuleInstance();
 [$controller_name, $action_name] = Route::start();
 
 if ($controller_name === 'TaskController') {
-    TaskController::$action_name();
-} elseif ($controller_name ===  'UserController') {
-    UserController::$action_name();
+    [$include, $vars] = TaskController::$action_name();
+} elseif ($controller_name === 'UserController') {
+    [$include, $vars] = UserController::$action_name();
+} else {
+    $include = ErrorController::show();
 }
 
 ?>
@@ -27,7 +30,8 @@ if ($controller_name === 'TaskController') {
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title><?= APP_NAME ?></title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <!-- Styles -->
     <style>
         html, body {
@@ -86,9 +90,11 @@ if ($controller_name === 'TaskController') {
 <div class="">
 
     <div class="content">
-        <div class="title m-b-md">
-            <?= APP_NAME ?>
-        </div>
+
+        <?php include __DIR__ . '/app/views/' . $include . '.php'; ?>
+
+
+
 
         <div class="links">
             <a href="/task/index" target="_blank">task/index</a>

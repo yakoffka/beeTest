@@ -1,14 +1,11 @@
 <?php
 
-
 namespace App\controllers;
-
 
 use App\models\User;
 
 class UserController
 {
-
     public static function create(string $name, string $email, string $password)
     {
         User::create([
@@ -18,19 +15,8 @@ class UserController
         ]);
     }
 
-    public function show()
+    public static function index()
     {
-
+        echo 'hello, i am ' . __FILE__;
     }
-
-    public function store()
-    {
-
-    }
-
-    public function edit()
-    {
-
-    }
-
 }

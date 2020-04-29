@@ -1,18 +1,23 @@
 <?php
 
+use App\controllers\TaskController;
+use App\controllers\UserController;
 use App\databases\CapsuleInstance;
 use App\routes\Route;
 
 require 'config.php';
 require 'vendor/autoload.php';
 
-[$controller_name, $action_name] = Route::start();
-
 $capsule = new CapsuleInstance();
 
-echo 'роутер отдал метод ' . $controller_name . '::' . $action_name . '()';
+[$controller_name, $action_name] = Route::start();
 
-// $controller_name::$action_name();
+if ($controller_name === 'TaskController') {
+    TaskController::$action_name();
+} elseif ($controller_name ===  'UserController') {
+    UserController::$action_name();
+}
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -85,15 +90,9 @@ echo 'роутер отдал метод ' . $controller_name . '::' . $action_n
             <?= APP_NAME ?>
         </div>
 
-        <form action="">
-            <input type="text" placeholder="enter task name">
-            <input type="text" placeholder="enter your name">
-            <input type="text" placeholder="enter task description">
-            <input type="submit" value="submit">
-        </form>
-
         <div class="links">
-            <a href="Task/show" target="_blank">Task/show</a>
+            <a href="/task/index" target="_blank">task/index</a>
+            <a href="/user/index" target="_blank">user/index</a>
             <a href="https://github.com/yakoffka/beeTest" target="_blank">GitHub</a>
             <a href="https://github.com/yakoffka/beeTest" target="_blank">GitHub</a>
         </div>

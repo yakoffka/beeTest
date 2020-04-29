@@ -14,11 +14,9 @@ if (count($tasks) > 0) {
           <th scope="col">description</th>
           <th scope="col">user name</th>
           <th scope="col">user email</th>
-        </tr>  
-        ';
+        </tr>';
 
     foreach ($tasks as $task) {
-        // var_dump($task);
         require __DIR__ . '/task_row.php';
     }
     echo '

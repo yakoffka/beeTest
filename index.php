@@ -1,6 +1,7 @@
 <?php
 
 use App\controllers\ErrorController;
+use App\controllers\MigrationController;
 use App\controllers\TaskController;
 use App\controllers\UserController;
 use App\databases\CapsuleInstance;
@@ -14,9 +15,23 @@ $capsule = new CapsuleInstance();
 [$controller_name, $action_name] = Route::start();
 
 if ($controller_name === 'TaskController') {
-    [$include, $vars] = TaskController::$action_name();
+
+    $result = '';
+    if ($action_name === 'create') {
+        echo '$action_name = ' . $action_name;
+        $result = TaskController::create(
+            $_POST['user_name'],
+            $_POST['email'],
+            $_POST['name'],
+            $_POST['description']
+        );
+    }
+
+    [$include, $tasks] = TaskController::index();
 } elseif ($controller_name === 'UserController') {
     [$include, $vars] = UserController::$action_name();
+} elseif ($controller_name === 'MigrationController') {
+    [$include, $vars] = MigrationController::$action_name();
 } else {
     $include = ErrorController::show();
 }
@@ -71,6 +86,9 @@ if ($controller_name === 'TaskController') {
             font-size: 84px;
         }
 
+        .links {
+            padding: 2em;
+        }
         .links > a {
             color: #636b6f;
             padding: 0 25px;
@@ -87,6 +105,16 @@ if ($controller_name === 'TaskController') {
     </style>
 </head>
 <body>
+
+<div class="navbar navbar-dark bg-dark shadow-sm">
+    <div class="container d-flex justify-content-between">
+        <a href="/" class="navbar-brand d-flex align-items-center">
+            <strong><?= APP_NAME ?></strong>
+        </a>
+    </div>
+</div>
+
+
 <div class="">
 
     <div class="content">
@@ -94,12 +122,10 @@ if ($controller_name === 'TaskController') {
         <?php include __DIR__ . '/app/views/' . $include . '.php'; ?>
 
 
-
-
         <div class="links">
             <a href="/task/index" target="_blank">task/index</a>
             <a href="/user/index" target="_blank">user/index</a>
-            <a href="https://github.com/yakoffka/beeTest" target="_blank">GitHub</a>
+            <a href="/migration/refresh" target="_blank">migration/refresh</a>
             <a href="https://github.com/yakoffka/beeTest" target="_blank">GitHub</a>
         </div>
     </div>

@@ -23,9 +23,9 @@ class CapsuleInstance
             'prefix'    => '',
         ]);
 
-        $capsule->bootEloquent();
+        $capsule->setAsGlobal();
 
-        echo 'hello, i am ' . __CLASS__ . "\n<br>";
+        $capsule->bootEloquent();
     }
 
 }

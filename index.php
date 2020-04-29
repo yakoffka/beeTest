@@ -11,8 +11,9 @@ require 'vendor/autoload.php';
 
 echo 'hello, i am fine...' . "\n<br>";
 
-$db = new CapsuleInstance();
-var_dump($db);
+$capsule = new CapsuleInstance();
+
+var_dump($capsule);
 
 
 $migration = new TasksMigration();

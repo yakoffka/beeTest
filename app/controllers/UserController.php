@@ -9,16 +9,13 @@ use App\models\User;
 class UserController
 {
 
-    public function create(string $name, string $email, string $password)
+    public static function create(string $name, string $email, string $password)
     {
-        $user = new User;
-        $user->save(
-            [
-                'name' => $name,
-                'email' => $email,
-                'password' => $password,
-            ]
-        );
+        User::create([
+            'name' => $name,
+            'email' => $email,
+            'password' => $password,
+        ]);
     }
 
     public function show()
@@ -35,6 +32,5 @@ class UserController
     {
 
     }
-
 
 }

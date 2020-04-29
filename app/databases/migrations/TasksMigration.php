@@ -24,7 +24,7 @@ class TasksMigration extends Migration
 
     public function down()
     {
-        Capsule::schema()->drop($this->table);
+        Capsule::schema()->dropIfExists($this->table);
     }
 
 }

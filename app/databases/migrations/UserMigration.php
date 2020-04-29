@@ -9,22 +9,22 @@ use Illuminate\Database\Migrations\Migration;
 
 class UserMigration extends Migration
 {
-    public $table = 'tasks';
+    public $table = 'users';
 
     public function up()
     {
         Capsule::schema()->create($this->table, function ($table) {
             $table->increments('id');
-            $table->string('name');
-            $table->string('email');
-            $table->string('password');
+            $table->string('name')->nullable();
+            $table->string('email')->nullable();
+            $table->string('password')->nullable();
             $table->timestamps();
         });
     }
 
     public function down()
     {
-        Capsule::schema()->drop($this->table);
+        Capsule::schema()->dropIfExists($this->table);
     }
 
 }

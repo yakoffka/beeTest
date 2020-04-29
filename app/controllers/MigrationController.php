@@ -6,6 +6,7 @@ namespace App\controllers;
 
 use App\databases\migrations\TasksMigration;
 use App\databases\migrations\UserMigration;
+use App\models\Task;
 
 class MigrationController
 {
@@ -19,7 +20,8 @@ class MigrationController
         $userMigration->down();
         $userMigration->up();
 
-        return ['tasks/index', ['one', 'two']];
+        $tasks = Task::all();
+        return ['tasks/index', $tasks];
     }
 
 }

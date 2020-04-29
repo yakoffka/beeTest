@@ -17,6 +17,6 @@ class UserController
 
     public static function index()
     {
-        echo 'hello, i am ' . __FILE__;
+        return ['users/index', ''];
     }
 }

@@ -18,7 +18,7 @@ if ($controller_name === 'TaskController') {
 
     $result = '';
     if ($action_name === 'create') {
-        echo '$action_name = ' . $action_name;
+
         $result = TaskController::create(
             $_POST['user_name'],
             $_POST['email'],
@@ -31,7 +31,7 @@ if ($controller_name === 'TaskController') {
 } elseif ($controller_name === 'UserController') {
     [$include, $vars] = UserController::$action_name();
 } elseif ($controller_name === 'MigrationController') {
-    [$include, $vars] = MigrationController::$action_name();
+    [$include, $tasks] = MigrationController::$action_name();
 } else {
     $include = ErrorController::show();
 }
@@ -47,62 +47,7 @@ if ($controller_name === 'TaskController') {
     <title><?= APP_NAME ?></title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <!-- Styles -->
-    <style>
-        html, body {
-            background-color: #fff;
-            color: #636b6f;
-            /*font-family: 'Nunito', sans-serif;*/
-            font-weight: 200;
-            /*height: 100vh;*/
-            margin: 0;
-        }
-
-        .full-height {
-            height: 100vh;
-        }
-
-        .flex-center {
-            align-items: center;
-            display: flex;
-            justify-content: center;
-        }
-
-        .position-ref {
-            position: relative;
-        }
-
-        .top-right {
-            position: absolute;
-            right: 10px;
-            top: 18px;
-        }
-
-        .content {
-            text-align: center;
-        }
-
-        .title {
-            font-size: 84px;
-        }
-
-        .links {
-            padding: 2em;
-        }
-        .links > a {
-            color: #636b6f;
-            padding: 0 25px;
-            font-size: 13px;
-            font-weight: 600;
-            letter-spacing: .1rem;
-            text-decoration: none;
-            /*text-transform: uppercase;*/
-        }
-
-        .m-b-md {
-            margin-bottom: 30px;
-        }
-    </style>
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
 
@@ -118,15 +63,19 @@ if ($controller_name === 'TaskController') {
 <div class="">
 
     <div class="content">
+        <div class="container">
 
-        <?php include __DIR__ . '/app/views/' . $include . '.php'; ?>
+
+            <?php include __DIR__ . '/app/views/' . $include . '.php'; ?>
+
+            <div class="links">
+                <a href="/task/index" target="_blank">task/index</a>
+                <a href="/user/index" target="_blank">user/index</a>
+                <a href="/migration/refresh" target="_blank">migration/refresh</a>
+                <a href="https://github.com/yakoffka/beeTest" target="_blank">GitHub</a>
+            </div>
 
 
-        <div class="links">
-            <a href="/task/index" target="_blank">task/index</a>
-            <a href="/user/index" target="_blank">user/index</a>
-            <a href="/migration/refresh" target="_blank">migration/refresh</a>
-            <a href="https://github.com/yakoffka/beeTest" target="_blank">GitHub</a>
         </div>
     </div>
 </div>

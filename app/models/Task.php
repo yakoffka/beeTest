@@ -9,5 +9,5 @@ use Illuminate\Database\Eloquent\Model;
 class Task extends Model
 {
     protected $guarded = [];
-    protected $perPage = 3;
+    public static $chunk = 3;
 }

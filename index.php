@@ -28,7 +28,7 @@ if ($controller_name === 'TaskController') {
         $redirect = '<meta http-equiv="refresh" content="0; url=/">';
     }
 
-    [$include, $tasks] = TaskController::index();
+    [$include, $tasks, $currPage] = TaskController::index();
 } elseif ($controller_name === 'UserController') {
     [$include, $vars] = UserController::$action_name();
 } elseif ($controller_name === 'MigrationController') {

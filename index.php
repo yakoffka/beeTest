@@ -1,35 +1,103 @@
 <?php
 
 use App\databases\CapsuleInstance;
-use App\databases\migrations\TasksMigration;
-use Illuminate\Database\Capsule\Manager as Capsule;
+use App\routes\Route;
 
 require 'config.php';
 require 'vendor/autoload.php';
 
-// phpinfo();
-
-echo 'hello, i am fine...' . "\n<br>";
+[$controller_name, $action_name] = Route::start();
 
 $capsule = new CapsuleInstance();
 
-var_dump($capsule);
+echo 'роутер отдал метод ' . $controller_name . '::' . $action_name . '()';
 
+// $controller_name::$action_name();
+?>
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><?= APP_NAME ?></title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <!-- Styles -->
+    <style>
+        html, body {
+            background-color: #fff;
+            color: #636b6f;
+            /*font-family: 'Nunito', sans-serif;*/
+            font-weight: 200;
+            /*height: 100vh;*/
+            margin: 0;
+        }
 
-$migration = new TasksMigration();
-var_dump($migration);
+        .full-height {
+            height: 100vh;
+        }
 
+        .flex-center {
+            align-items: center;
+            display: flex;
+            justify-content: center;
+        }
 
-$migration->up();
-die();
-//
-//
-//if (Capsule::table('task')->exists()) {
-//    echo 'table task is exists.';
-//} else {
-//    echo 'table task is not exists.';
-//}
+        .position-ref {
+            position: relative;
+        }
 
+        .top-right {
+            position: absolute;
+            right: 10px;
+            top: 18px;
+        }
 
-die();
-$tasks = Capsule::table('task')->insert('feodor', 'email', 'description');
+        .content {
+            text-align: center;
+        }
+
+        .title {
+            font-size: 84px;
+        }
+
+        .links > a {
+            color: #636b6f;
+            padding: 0 25px;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: .1rem;
+            text-decoration: none;
+            /*text-transform: uppercase;*/
+        }
+
+        .m-b-md {
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+<div class="">
+
+    <div class="content">
+        <div class="title m-b-md">
+            <?= APP_NAME ?>
+        </div>
+
+        <form action="">
+            <input type="text" placeholder="enter task name">
+            <input type="text" placeholder="enter your name">
+            <input type="text" placeholder="enter task description">
+            <input type="submit" value="submit">
+        </form>
+
+        <div class="links">
+            <a href="Task/show" target="_blank">Task/show</a>
+            <a href="https://github.com/yakoffka/beeTest" target="_blank">GitHub</a>
+            <a href="https://github.com/yakoffka/beeTest" target="_blank">GitHub</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

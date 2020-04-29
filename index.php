@@ -20,11 +20,12 @@ if ($controller_name === 'TaskController') {
     if ($action_name === 'create') {
 
         $result = TaskController::create(
-            $_POST['user_name'],
-            $_POST['email'],
-            $_POST['name'],
-            $_POST['description']
+            $_POST['user_name'] ?? '',
+            $_POST['email'] ?? '',
+            $_POST['name'] ?? '',
+            $_POST['description'] ?? ''
         );
+        $redirect = '<meta http-equiv="refresh" content="0; url=/">';
     }
 
     [$include, $tasks] = TaskController::index();
@@ -40,6 +41,11 @@ if ($controller_name === 'TaskController') {
 <!doctype html>
 <html lang="en">
 <head>
+    <?php
+    if (!empty($redirect)) {
+        echo $redirect;
+    }
+    ?>
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -65,16 +71,18 @@ if ($controller_name === 'TaskController') {
     <div class="content">
         <div class="container">
 
-
-            <?php include __DIR__ . '/app/views/' . $include . '.php'; ?>
+            <?php
+                if (!empty($include)) {
+                    include __DIR__ . '/app/views/' . $include . '.php';
+                }
+            ?>
 
             <div class="links">
                 <a href="/task/index" target="_blank">task/index</a>
                 <a href="/user/index" target="_blank">user/index</a>
-                <a href="/migration/refresh" target="_blank">migration/refresh</a>
+                <a href="/" target="_blank">migration/refresh</a><!-- /migration/refresh -->
                 <a href="https://github.com/yakoffka/beeTest" target="_blank">GitHub</a>
             </div>
-
 
         </div>
     </div>

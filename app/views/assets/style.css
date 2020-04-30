@@ -109,3 +109,23 @@ table.table th {
 .toasts .toast {
     min-width: 300px;
 }
+
+.info {
+    text-align: left;
+    color: #cfd8e2;
+}
+
+.navbar .container a,
+.login a {
+    color: #636b6f;
+    transition: all 0.5s ease-out 0s;
+}
+
+.navbar .container a:hover,
+.login a:hover {
+    color: #cfd8e2;
+    text-decoration: none;
+    transition: all 0.5s ease-out 0s;
+}
+
+

@@ -17,11 +17,15 @@
             <strong><?= APP_NAME ?></strong>
         </a>
 
-        <span class="info">
+        <div class="login">
             <?php
-            echo 'sorting: ' . ($_SESSION['sortName'] ?? 'none') . ';';
+            if (!empty($_SESSION['name'])) {
+                echo 'you a logged as ' . $_SESSION['name'] . ' <a href="/user/login">logout</a>';
+            } else {
+                echo ' <a href="/user/login">login</a>';
+            }
             ?>
-        </span>
+        </div>
 
     </div>
 </div>
@@ -42,10 +46,18 @@
             ?>
 
             <div class="links">
+                <a href="/user/login">login</a>
                 <a href="/task/index">tasks</a>
                 <a href="/migration/refresh">migration refresh</a>
                 <a href="/seeder/seedUser">seed admin</a>
                 <a href="https://github.com/yakoffka/beeTest" target="_blank">GitHub</a>
+            </div>
+
+            <div class="info">
+                <?php
+                echo ' sorting: ' . ($_SESSION['sortName'] ?? 'none') . ';';
+                echo ' user: ' . ($_SESSION['name'] ?? 'no login') . ';';
+                ?>
             </div>
 
         </div>

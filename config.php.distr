@@ -6,4 +6,5 @@ define('DB_NAME', 'bt');
 define('DB_USER', 'homestead');
 define('DB_PASSWORD', 'secret');
 define('APP_NAME', 'test job');
-
+define('APP_URL', 'http://bee.test/');
+define('LOGIN_URL', 'http://bee.test/user/login');

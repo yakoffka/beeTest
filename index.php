@@ -35,11 +35,11 @@ if ($controller_name === 'TaskController') {
     $vars = TaskController::index();
 
 } elseif ($controller_name === 'UserController') {
-    UserController::$action_name();
+    $vars = UserController::$action_name();
 } elseif ($controller_name === 'MigrationController') {
-    MigrationController::$action_name();
+    $vars = MigrationController::$action_name();
 } elseif ($controller_name === 'SeederController') {
-    SeederController::$action_name();
+    $vars = SeederController::$action_name();
 } else {
     $vars = ErrorController::show();
 }

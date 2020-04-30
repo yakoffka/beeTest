@@ -44,4 +44,73 @@ class UserController
             'password' => $password,
         ];
     }
+
+    /**
+     * show login form
+     * @return array|string[]
+     */
+    public static function login(): array
+    {
+        return ['view' => 'users/login',];
+    }
+
+    /**
+     *
+     */
+    public static function authentication(): void
+    {
+        $userData = self::getValidatedData();
+        $user = User::query()->firstWhere($userData);
+
+        if ($user) {
+            $_SESSION['reportSuccess'][] = 'Hello ' . $user->name . ' !';
+            $_SESSION['name'] = $user->name;
+            header('Location: ' . APP_URL);
+            die();
+        }
+
+        $_SESSION['reportErrors'][] = 'failed authentication!';
+        header('Location: ' . LOGIN_URL);
+        die();
+    }
+
+    protected static function logout()
+    {
+
+    }
+
+    /**
+     * @return array
+     */
+    private static function getValidatedData(): array
+    {
+        $userData = self::getDataFromRequest();
+
+        $reportErrors = [];
+        foreach ($userData as $nameField => $value) {
+            if ($value === '') {
+                $reportErrors[] = 'Поле должно ' . $nameField . ' быть заполнено';
+            }
+        }
+
+        if (!empty($reportErrors)) {
+            $_SESSION['reportErrors'] = $reportErrors;
+            header('Location: ' . LOGIN_URL);
+            die();
+        }
+        return $userData;
+    }
+
+    /**
+     * @return array
+     */
+    private static function getDataFromRequest(): array
+    {
+        // @todo: добавить безопасности.. все еще мало золота..
+        return [
+            'name' => $_POST['name'] ?? '',
+            'password' => $_POST['password'] ?? '',
+        ];
+    }
+
 }

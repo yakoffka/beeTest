@@ -74,9 +74,10 @@ class UserController
         die();
     }
 
-    protected static function logout()
+    public static function logout()
     {
-
+        unset($_SESSION['name']);
+        header('Location: ' . APP_URL);
     }
 
     /**

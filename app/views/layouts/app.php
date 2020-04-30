@@ -20,7 +20,7 @@
         <div class="login">
             <?php
             if (!empty($_SESSION['name'])) {
-                echo 'you a logged as ' . $_SESSION['name'] . ' <a href="/user/login">logout</a>';
+                echo 'you a logged as ' . $_SESSION['name'] . ' <a href="/user/logout">logout</a>';
             } else {
                 echo ' <a href="/user/login">login</a>';
             }

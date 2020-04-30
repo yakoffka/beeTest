@@ -21,12 +21,11 @@ class TaskController
     }
 
     /**
-     * @return array|null
+     * @return void
      */
-    public static function create(): ?array
+    public static function create(): void
     {
-        $taskData = self::getValidatedTaskData();
-        $task = Task::create($taskData);
+        $task = Task::create(self::getValidatedData());
 
         if ($task) {
             $_SESSION['reportSuccess'][] = 'Task ' . $task->name . ' successfully added!';
@@ -34,6 +33,22 @@ class TaskController
             $_SESSION['reportErrors'][] = 'Failed to add task.';
         }
         // @todo: СДЕЛАТЬ РЕДИРЕКТ НА ПОСЛЕДНЮЮ СТРАНИЦУ!
+        header('Location: ' . APP_URL);
+    }
+
+    /**
+     * @return void
+     */
+    public static function edit(): void
+    {
+        $task = Task::create(self::getUpdateDataFromRequest());
+
+        if ($task) {
+            $_SESSION['reportSuccess'][] = 'Task ' . $task->name . ' successfully edited!';
+        } else {
+            $_SESSION['reportErrors'][] = 'Failed to edited task.';
+        }
+        // @todo: СДЕЛАТЬ РЕДИРЕКТ НА ТЕКУЩУЮ СТРАНИЦУ!
         header('Location: ' . APP_URL);
     }
 
@@ -65,13 +80,15 @@ class TaskController
     /**
      * @return array
      */
-    private static function getValidatedTaskData(): array
+    private static function getValidatedData(): array
     {
-        $taskData = self::getTaskDataFromRequest();
+        $taskData = self::getCreateDataFromRequest();
 
         $reportErrors = [];
         foreach ($taskData as $nameField => $value) {
-            if ($value === '') {$reportErrors[] = 'Поле должно ' . $nameField . ' быть заполнено';}
+            if ($value === '') {
+                $reportErrors[] = 'Поле должно ' . $nameField . ' быть заполнено';
+            }
         }
 
         if (!empty($reportErrors)) {
@@ -98,13 +115,25 @@ class TaskController
     /**
      * @return array
      */
-    private static function getTaskDataFromRequest(): array
+    private static function getCreateDataFromRequest(): array
     {
         // @todo: добавить безопасности.. все еще мало золота..
         return [
             'user_name' => $_POST['user_name'] ?? '',
             'email' => $_POST['email'] ?? '',
             'name' => $_POST['name'] ?? '',
+            'description' => $_POST['description'] ?? ''
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    private static function getUpdateDataFromRequest(): array
+    {
+        // @todo: добавить безопасности.. все еще мало золота..
+        return [
+            'done' => $_POST['done'] ? true : false,
             'description' => $_POST['description'] ?? ''
         ];
     }

@@ -23,23 +23,23 @@ $capsule = new CapsuleInstance();
 // @todo: вынести роутинг в отдельный файл
 if ($controller_name === 'TaskController') {
 
-    if ($action_name === 'create') {
-        $vars = TaskController::create();
-
-    } elseif ($action_name === 'setSort') {
+    if ($action_name === 'setSort') {
         TaskController::setSort(
             $_POST['sort'] ?? 'id'
         );
     }
 
-    $vars = TaskController::index();
+    $vars = TaskController::$action_name();
 
 } elseif ($controller_name === 'UserController') {
     $vars = UserController::$action_name();
+
 } elseif ($controller_name === 'MigrationController') {
     $vars = MigrationController::$action_name();
+
 } elseif ($controller_name === 'SeederController') {
     $vars = SeederController::$action_name();
+
 } else {
     $vars = ErrorController::show();
 }

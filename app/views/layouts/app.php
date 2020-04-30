@@ -49,7 +49,7 @@
                 <a href="/user/login">login</a>
                 <a href="/task/index">tasks</a>
                 <a href="/migration/refresh">migration refresh</a>
-                <a href="/seeder/seedUser">seed admin</a>
+                <a href="/seeder/seeding">seeding</a>
                 <a href="https://github.com/yakoffka/beeTest" target="_blank">GitHub</a>
             </div>
 

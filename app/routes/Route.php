@@ -10,11 +10,11 @@ class Route
 {
     static function start()
     {
-        // контроллер и действие по умолчанию
         $model_name = 'Task';
         $action_name = 'index';
 
-        $routes = explode('/', $_SERVER['REQUEST_URI']);
+        $uriWithoutGetRequest = explode('?', $_SERVER['REQUEST_URI'])[0];
+        $routes = explode('/', $uriWithoutGetRequest);
 
         if (!empty($routes[1])) {
             $model_name = ucfirst($routes[1]);

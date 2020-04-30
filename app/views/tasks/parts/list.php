@@ -19,7 +19,7 @@
                 </form>
             </th>
 
-            <th scope="col" style="width: 51%">
+            <th scope="col" style="width: <?= !empty($_SESSION['name']) ? '45' : '50' ?>%">
                 <form action="/task/setSort" class="sort_form" method="post">
                     <input type="hidden" name="sort" value="description">
                     <input type="submit" value="текст задачи"></form>
@@ -31,6 +31,19 @@
                     <input type="submit" value="статус">
                 </form>
             </th>
+
+            <?php
+            if (!empty($_SESSION['name'])) {
+                ?>
+                <th scope="col" style="width: 5%">
+                    <form action="/task/setSort" class="sort_form" method="post">
+                        <input type="hidden" name="sort" value="done">
+                        <input type="submit" value="действия">
+                    </form>
+                </th>
+                <?php
+            }
+            ?>
         </tr>
 
         <?php

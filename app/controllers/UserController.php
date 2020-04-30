@@ -107,6 +107,7 @@ class UserController
      */
     private static function getDataFromRequest(): array
     {
+        // @todo: добавить шифрование пароля!!!
         // @todo: добавить безопасности.. все еще мало золота..
         return [
             'name' => $_POST['name'] ?? '',

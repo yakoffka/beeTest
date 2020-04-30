@@ -80,6 +80,13 @@ input[type="submit"]:hover {
 table.table {
     margin-bottom: 3rem;
 }
+table.table a {
+    color: #636b6f;
+}
+table.table a:hover {
+    color: #09f;
+    text-decoration: none;
+}
 table.table td,
 table.table th {
     text-align: left;

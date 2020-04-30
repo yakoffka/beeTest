@@ -37,19 +37,53 @@ class TaskController
     }
 
     /**
+     * @return array
+     */
+    public static function edit(): array
+    {
+        $task = Task::find(self::getValidatedIDFromGet());
+        if ($task) {
+            return [
+                'view' => 'tasks/show',
+                'task' => $task,
+            ];
+        }
+        // header('Location: ' . $_SERVER['HTTP_REFERER']);
+        header('Location: ' . APP_URL);
+    }
+
+    /**
+     * @return int
+     */
+    public static function getValidatedIDFromGet(): int
+    {
+        // @todo: добавить безопасности.. все еще мало золота..
+        return (int)$_GET['id'];
+    }
+
+    /**
      * @return void
      */
-    public static function edit(): void
+    public static function update(): void
     {
-        $task = Task::create(self::getUpdateDataFromRequest());
+        $task = Task::find(self::getValidatedIDFromPost());
 
-        if ($task) {
+        if ($task->update(self::getUpdateDataFromRequest())) {
             $_SESSION['reportSuccess'][] = 'Task ' . $task->name . ' successfully edited!';
         } else {
             $_SESSION['reportErrors'][] = 'Failed to edited task.';
         }
         // @todo: СДЕЛАТЬ РЕДИРЕКТ НА ТЕКУЩУЮ СТРАНИЦУ!
         header('Location: ' . APP_URL);
+    }
+
+    /**
+     * @return int
+     */
+    public static function getValidatedIDFromPost(): int
+    {
+        // @todo: добавить безопасности.. все еще мало золота..
+        return (int)$_POST['id'];
     }
 
     /**
@@ -132,9 +166,11 @@ class TaskController
     private static function getUpdateDataFromRequest(): array
     {
         // @todo: добавить безопасности.. все еще мало золота..
-        return [
+        $return = [
             'done' => $_POST['done'] ? true : false,
             'description' => $_POST['description'] ?? ''
         ];
+
+        return $return;
     }
 }

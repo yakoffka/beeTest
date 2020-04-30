@@ -8,6 +8,6 @@ class ErrorController
 {
     public static function show()
     {
-        return 'errors/404' ;
+        return ['view' => 'errors/404'];
     }
 }

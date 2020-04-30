@@ -11,11 +11,11 @@ if (count($tasks) > 1) {
                     href="/task/index?page=' . count($tasks) . '" rel="next" 
                     aria-label="« Назад">‹</a>';
 
-    if ($currPage === 1) {
+    if ($vars['currPage'] === 1) {
         $backEnabled = ' disabled';
         $aBack = '<span class="page-link" aria-hidden="true">‹</span>';
 
-    } elseif ($currPage === count($tasks)) {
+    } elseif ($vars['currPage'] === count($tasks)) {
         $forwardEnabled = ' disabled';
         $aForward = '<span class="page-link" aria-hidden="true">›</span>';
     }
@@ -29,7 +29,7 @@ if (count($tasks) > 1) {
                 </li>';
 
     foreach ($tasks as $page => $task) {
-        if ($currPage === ($page + 1)) {
+        if ($vars['currPage'] === ($page + 1)) {
             echo '
                 <li class="page-item active" aria-current="page"><span class="page-link">'
                 . ($page + 1)

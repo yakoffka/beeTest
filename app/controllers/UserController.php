@@ -6,7 +6,12 @@ use App\models\User;
 
 class UserController
 {
-    public static function create(string $name, string $email, string $password)
+    /**
+     * @param string $name
+     * @param string $email
+     * @param string $password
+     */
+    public static function create(string $name, string $email, string $password): void
     {
         User::create([
             'name' => $name,
@@ -15,7 +20,10 @@ class UserController
         ]);
     }
 
-    public static function index()
+    /**
+     * @return array|string[]
+     */
+    public static function index(): array
     {
         return ['users/index', ''];
     }

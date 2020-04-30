@@ -55,3 +55,32 @@ html, body {
 .navbar.navbar-dark.bg-dark.shadow-sm {
     margin-bottom: 2em;
 }
+
+input[type="submit"] {
+    color: #636b6f;
+}
+input[type="submit"]:hover {
+    color: #09f;
+}
+
+
+.page-item.active .page-link {
+    color: #09f;
+    /*background-color: #dee2e6;*/
+    background-color: #e9ecef;
+    /*border-color: #ababb3;*/
+    border-color: #dee2e6;
+}
+.page-link {
+    color: #09f;
+}
+
+
+form.sort_form {
+    float: right;
+}
+
+table.table td,
+table.table th {
+    text-align: left;
+}

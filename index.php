@@ -22,6 +22,7 @@ $capsule = new CapsuleInstance();
 
 [$controller_name, $action_name] = Route::start();
 
+// @todo: вынести роутинг в отдельный файл
 if ($controller_name === 'TaskController') {
 
     $result = '';
@@ -33,7 +34,9 @@ if ($controller_name === 'TaskController') {
             $_POST['name'] ?? '',
             $_POST['description'] ?? ''
         );
-        $redirect = '<meta http-equiv="refresh" content="0; url=/">';
+        // @todo: заменить редирект на редирект с помощью заголовков?
+        // $redirect = '<meta http-equiv="refresh" content="0; url=/">';
+
     } elseif ($action_name === 'setSort') {
         $result = TaskController::setSort(
             $_POST['sort'] ?? 'id'
@@ -41,7 +44,8 @@ if ($controller_name === 'TaskController') {
         $redirect = '<meta http-equiv="refresh" content="0; url=/">';
     }
 
-    [$include, $tasks, $currPage] = TaskController::index();
+    // [$include, $tasks, $vars['currPage']] = TaskController::index();
+    $vars = TaskController::index();
 } elseif ($controller_name === 'UserController') {
     [$include, $vars] = UserController::$action_name();
 } elseif ($controller_name === 'MigrationController') {
@@ -50,70 +54,8 @@ if ($controller_name === 'TaskController') {
     $include = ErrorController::show();
 }
 
+
+// @todo: вынести html в какой-нибудь layout
+include __DIR__ . '/app/views/layouts/app.php';
+
 ?>
-<!doctype html>
-<html lang="en">
-<head>
-    <?php
-    if (!empty($redirect)) {
-        echo $redirect;
-    }
-    ?>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title><?= APP_NAME ?></title>
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" />
-
-    <link rel="stylesheet" href="/style.css">
-</head>
-<body>
-
-<div class="navbar navbar-dark bg-dark shadow-sm">
-    <div class="container d-flex justify-content-between">
-        <a href="/" class="navbar-brand d-flex align-items-center">
-            <strong><?= APP_NAME ?></strong>
-        </a>
-    </div>
-</div>
-
-
-<div class="">
-
-    <div class="content">
-        <div class="container">
-
-            <?php
-                if (!empty($include)) {
-                    include __DIR__ . '/app/views/components/toasts.php';
-                }
-            ?>
-
-            <?php
-                if (!empty($include)) {
-                    include __DIR__ . '/app/views/' . $include . '.php';
-                }
-            ?>
-
-            <div class="links">
-                <a href="/task/index">tasks</a>
-                <a href="/">migration refresh</a><!-- /migration/refresh -->
-                <a href="https://github.com/yakoffka/beeTest" target="_blank">GitHub</a>
-            </div>
-
-        </div>
-    </div>
-</div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
-
-<!--Инициализация всплывающих сообщений через JavaScript-->
-<script>
-    $('.toast').toast('show');
-</script>
-
-</body>
-</html>

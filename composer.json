@@ -3,7 +3,8 @@
     "description": "test task",
     "type": "project",
     "require": {
-        "illuminate/database": "7.9.2.*"
+        "illuminate/database": "7.9.2.*",
+        "twbs/bootstrap": "^4.4"
     }
     ,
     "require-dev": {

@@ -58,7 +58,7 @@ class TaskController
     public static function getValidatedIDFromGet(): int
     {
         // @todo: добавить безопасности.. все еще мало золота..
-        return (int)$_GET['id'];
+        return (int)self::clean($_GET['id']);
     }
 
     /**
@@ -83,7 +83,7 @@ class TaskController
     public static function getValidatedIDFromPost(): int
     {
         // @todo: добавить безопасности.. все еще мало золота..
-        return (int)$_POST['id'];
+        return (int)self::clean($_POST['id']);
     }
 
     /**
@@ -151,12 +151,11 @@ class TaskController
      */
     private static function getCreateDataFromRequest(): array
     {
-        // @todo: добавить безопасности.. все еще мало золота..
         return [
-            'user_name' => $_POST['user_name'] ?? '',
-            'email' => $_POST['email'] ?? '',
-            'name' => $_POST['name'] ?? '',
-            'description' => $_POST['description'] ?? ''
+            'user_name' => self::clean($_POST['user_name']) ?? '',
+            'email' => self::clean($_POST['email']) ?? '',
+            'name' => self::clean($_POST['name']) ?? '',
+            'description' => self::clean($_POST['description']) ?? ''
         ];
     }
 
@@ -167,10 +166,18 @@ class TaskController
     {
         // @todo: добавить безопасности.. все еще мало золота..
         $return = [
-            'done' => $_POST['done'] ? true : false,
-            'description' => $_POST['description'] ?? ''
+            'done' => self::clean($_POST['done']) ? true : false,
         ];
 
         return $return;
+    }
+
+    /**
+     * @param string $input
+     * @return string
+     */
+    private static function clean(string $input)
+    {
+        return trim(htmlspecialchars(strip_tags($input)));
     }
 }

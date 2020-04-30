@@ -1,4 +1,4 @@
-<h2>add task</h2>
+<h2>Add task</h2>
 <form action="/task/create" method="post">
     <input name="user_name" type="text" placeholder="enter your name">
     <input name="email" type="text" placeholder="enter your email">

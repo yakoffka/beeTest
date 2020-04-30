@@ -10,19 +10,28 @@ use App\models\Task;
 
 class MigrationController
 {
-    public static function refresh()
+    /**
+     * @return array
+     */
+    public static function refresh(): array
     {
         self::migrate();
         $tasks = Task::all();
         return ['view' => 'tasks/index', 'tasks' => $tasks];
     }
 
+    /**
+     * performs migration
+     */
     private static function migrate(): void
     {
         self::taskMigrate();
         self::userMigrate();
     }
 
+    /**
+     * performs task table migration
+     */
     private static function taskMigrate(): void
     {
         $taskMigration = new TasksMigration();
@@ -30,6 +39,9 @@ class MigrationController
         $taskMigration->up();
     }
 
+    /**
+     * performs user table migration
+     */
     private static function userMigrate(): void
     {
         $userMigration = new UserMigration();

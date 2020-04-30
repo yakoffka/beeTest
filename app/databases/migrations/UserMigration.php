@@ -16,7 +16,7 @@ class UserMigration extends Migration
         Capsule::schema()->create($this->table, function ($table) {
             $table->increments('id');
             $table->string('name')->nullable();
-            $table->string('email')->nullable();
+            $table->string('email')->nullable()->unique();
             $table->string('password')->nullable();
             $table->timestamps();
         });

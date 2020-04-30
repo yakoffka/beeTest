@@ -21,7 +21,7 @@ if (count($tasks) > 1) {
     }
 
     echo '
-        <div class="row col-sm-12 pagination">
+        <div class="col-sm-12 pagination">
             <ul class="pagination" role="navigation">
 
                 <li class="page-item' . $backEnabled . '" aria-disabled="true" aria-label="« Назад">

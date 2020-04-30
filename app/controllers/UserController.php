@@ -13,18 +13,16 @@ class UserController
      */
     public static function create(string $name, string $email, string $password): void
     {
-        $userData = self::getUserData($name, $email, $password);
-        $user = User::create($userData);
-        $_SESSION['reportSuccess'][] = 'User ' . $user->name . ' successfully seeded!';
-        header('Location: ' . APP_URL);
-    }
+        //$userData = self::getUserData($name, $email, $password);
+        $userData = [];
 
-    /**
-     * @return array|string[]
-     */
-    public static function index(): array
-    {
-        return ['users/index', ''];
+        $user = User::create($userData);
+        if ($user) {
+            $_SESSION['reportSuccess'][] = 'User ' . $user->name . ' successfully seeded!';
+        } else {
+            $_SESSION['reportErrors'][] = 'Failed to seeded user.';
+        }
+        header('Location: ' . APP_URL);
     }
 
     /**

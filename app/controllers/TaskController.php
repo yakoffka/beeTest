@@ -21,32 +21,20 @@ class TaskController
     }
 
     /**
-     * @param string|null $userName
-     * @param string|null $email
-     * @param string|null $name
-     * @param string|null $description
      * @return array|null
      */
-    public static function create(string $userName = null, string $email = null, string $name = null, string $description = null): ?array
+    public static function create(): ?array
     {
-        // @todo: заменить ($userName, $email, $name, $description) на request?
-        $reportErrors = self::getValidateErrors($userName, $email, $name, $description);
-        if (!empty($reportErrors)) {
-            return [
-                'view' => 'tasks/index',
-                'tasks' => self::getTasks(),
-                'currPage' => self::getCurrentPage(),
-                'reportErrors' => $reportErrors
-            ];
-        }
+        $taskData = self::getValidatedTaskData();
+        $task = Task::create($taskData);
 
-        Task::create([
-            'user_name' => $userName,
-            'email' => $email,
-            'name' => $name,
-            'description' => $description,
-        ]);
-        // @todo: redirect!
+        if ($task) {
+            $_SESSION['reportSuccess'][] = 'Task ' . $task->name . ' successfully added!';
+        } else {
+            $_SESSION['reportErrors'][] = 'Failed to add task.';
+        }
+        // @todo: СДЕЛАТЬ РЕДИРЕКТ НА ПОСЛЕДНЮЮ СТРАНИЦУ!
+        header('Location: ' . APP_URL);
     }
 
     /**
@@ -55,6 +43,7 @@ class TaskController
     public static function setSort($nameField): void
     {
         $_SESSION['sortName'] = $nameField;
+        header('Location: ' . APP_URL);
     }
 
     /**
@@ -74,28 +63,23 @@ class TaskController
     }
 
     /**
-     * @param string $userName
-     * @param string $email
-     * @param string $name
-     * @param string $description
      * @return array
      */
-    private static function getValidateErrors(string $userName, string $email, string $name, string $description): array
+    private static function getValidatedTaskData(): array
     {
+        $taskData = self::getTaskDataFromRequest();
+
         $reportErrors = [];
-        if ($userName === '') {
-            $reportErrors[] = 'Поле должно userName быть заполнено';
+        foreach ($taskData as $nameField => $value) {
+            if ($value === '') {$reportErrors[] = 'Поле должно ' . $nameField . ' быть заполнено';}
         }
-        if ($email === '') {
-            $reportErrors[] = 'Поле должно email быть заполнено';
+
+        if (!empty($reportErrors)) {
+            $_SESSION['reportErrors'] = $reportErrors;
+            header('Location: ' . APP_URL);
+            die();
         }
-        if ($name === '') {
-            $reportErrors[] = 'Поле должно name быть заполнено';
-        }
-        if ($description === '') {
-            $reportErrors[] = 'Поле должно description быть заполнено';
-        }
-        return $reportErrors;
+        return $taskData;
     }
 
     /**
@@ -109,5 +93,19 @@ class TaskController
             ->get()
             ->sortBy($sortField)
             ->chunk(Task::$chunk);
+    }
+
+    /**
+     * @return array
+     */
+    private static function getTaskDataFromRequest(): array
+    {
+        // @todo: добавить безопасности.. все еще мало золота..
+        return [
+            'user_name' => $_POST['user_name'] ?? '',
+            'email' => $_POST['email'] ?? '',
+            'name' => $_POST['name'] ?? '',
+            'description' => $_POST['description'] ?? ''
+        ];
     }
 }

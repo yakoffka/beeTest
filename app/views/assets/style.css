@@ -76,11 +76,22 @@ input[type="submit"]:hover {
 }
 
 
-form.sort_form {
-    float: right;
-}
 
+table.table {
+    margin-bottom: 3rem;
+}
 table.table td,
 table.table th {
     text-align: left;
+}
+
+
+.pagination {
+    padding-left: .4em;
+}
+.pagination {
+    font-size: .9em;
+}
+.page-link {
+    padding: .3rem .6rem;
 }

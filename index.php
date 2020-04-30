@@ -64,8 +64,9 @@ if ($controller_name === 'TaskController') {
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title><?= APP_NAME ?></title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" />
+
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
@@ -86,18 +87,33 @@ if ($controller_name === 'TaskController') {
 
             <?php
                 if (!empty($include)) {
+                    include __DIR__ . '/app/views/components/toasts.php';
+                }
+            ?>
+
+            <?php
+                if (!empty($include)) {
                     include __DIR__ . '/app/views/' . $include . '.php';
                 }
             ?>
 
             <div class="links">
-                <a href="/task/index">task/index</a>
-                <a href="/">migration/refresh</a><!-- /migration/refresh -->
+                <a href="/task/index">tasks</a>
+                <a href="/">migration refresh</a><!-- /migration/refresh -->
                 <a href="https://github.com/yakoffka/beeTest" target="_blank">GitHub</a>
             </div>
 
         </div>
     </div>
 </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+
+<!--Инициализация всплывающих сообщений через JavaScript-->
+<script>
+    $('.toast').toast('show');
+</script>
+
 </body>
 </html>

@@ -16,8 +16,7 @@ class MigrationController
     public static function refresh(): array
     {
         self::migrate();
-        $tasks = Task::all();
-        return ['view' => 'tasks/index', 'tasks' => $tasks];
+        header('Location: ' . APP_URL);
     }
 
     /**

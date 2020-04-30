@@ -27,7 +27,7 @@
 
             <th scope="col" style="width: 5%">
                 <form action="/task/setSort" class="sort_form" method="post">
-                    <input type="hidden" name="sort" value="id">
+                    <input type="hidden" name="sort" value="done">
                     <input type="submit" value="статус">
                 </form>
             </th>
@@ -41,5 +41,7 @@
     </table>
 
 <?php
+} else {
+        echo '<div class="empty_list">The list of tasks is still empty. But you can add the first task!</div>';
 }
 echo '</div>';

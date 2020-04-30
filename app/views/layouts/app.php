@@ -43,8 +43,8 @@
 
             <div class="links">
                 <a href="/task/index">tasks</a>
-                <a href="/">migration refresh</a><!-- /migration/refresh -->
-                <a href="/seeder/seedUser">seed admin</a><!-- /migration/refresh -->
+                <a href="/migration/refresh">migration refresh</a>
+                <a href="/seeder/seedUser">seed admin</a>
                 <a href="https://github.com/yakoffka/beeTest" target="_blank">GitHub</a>
             </div>
 

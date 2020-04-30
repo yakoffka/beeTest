@@ -1,5 +1,5 @@
 
-<div style="position: absolute; top: 4em; right: 4em;">
+<div class="toasts">
     <?php
     if (!empty($_SESSION['reportErrors'])) {
         foreach ($_SESSION['reportErrors'] as $key => $reportError) {
@@ -13,7 +13,7 @@
 
     if (!empty($_SESSION['reportSuccess'])) {
         foreach ($_SESSION['reportSuccess'] as $key => $reportError) {
-            $n = $key + 5;
+            $n = $key + 1;
             $color = '00ccff';
             $mess = $reportError;
             require __DIR__ . '/toast.php';

@@ -13,8 +13,13 @@ class UserController
      */
     public static function create(string $name, string $email, string $password): void
     {
-        //$userData = self::getUserData($name, $email, $password);
-        $userData = [];
+        $userData = self::getUserData($name, $email, $password);
+
+        if (User::query()->firstWhere('email', '=', $email)) {
+            $_SESSION['reportSuccess'][] = 'User already seeded!';
+            header('Location: ' . APP_URL);
+            die();
+        }
 
         $user = User::create($userData);
         if ($user) {

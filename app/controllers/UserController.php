@@ -41,7 +41,7 @@ class UserController
         return [
             'name' => $name,
             'email' => $email,
-            'password' => $password,
+            'password' => password_hash($password, PASSWORD_BCRYPT, ['cost' => 10,]),
         ];
     }
 
@@ -60,9 +60,10 @@ class UserController
     public static function authentication(): void
     {
         $userData = self::getValidatedData();
-        $user = User::query()->firstWhere($userData);
+        $user = User::query()->whereName($userData['name'])->first();
+        // var_dump($userData, );
 
-        if ($user) {
+        if (password_verify($userData['password'], $user->password)) {
             $_SESSION['reportSuccess'][] = 'Hello ' . $user->name . ' !';
             $_SESSION['name'] = $user->name;
             header('Location: ' . APP_URL);
@@ -107,11 +108,9 @@ class UserController
      */
     private static function getDataFromRequest(): array
     {
-        // @todo: добавить шифрование пароля!!!
-        // @todo: добавить безопасности.. все еще мало золота..
         return [
-            'name' => $_POST['name'] ?? '',
-            'password' => $_POST['password'] ?? '',
+            'name' => $_POST['name'],
+            'password' => $_POST['password'],
         ];
     }
 

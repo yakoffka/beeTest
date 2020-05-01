@@ -57,8 +57,19 @@ html, body {
     margin-bottom: 2em;
 }
 
+table.table input[type="submit"] {
+    color: #1a6fa8;
+    border: 0px solid transparent;
+    background-color: transparent;
+    cursor: pointer;
+}
 input[type="submit"] {
-    color: #636b6f;
+    color: #1a6fa8;
+    border: 5px solid #cfd8e2;
+    border-right-width: 17px;
+    border-left-width: 17px;
+    background-color: #cfd8e2;
+    cursor: pointer;
 }
 input[type="submit"]:hover {
     color: #09f;
@@ -98,10 +109,6 @@ table.table th {
 }
 table.table tr th.ellipsis,
 table.table tr td.ellipsis {
-    /*white-space: nowrap;*/
-    /*overflow:hidden;*/
-    /*text-overflow: ellipsis;*/
-
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;

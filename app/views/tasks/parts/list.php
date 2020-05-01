@@ -14,7 +14,7 @@
                     <input type="hidden" name="sort" value="user_name">
                     <input type="hidden" name="desc"
                            value="<?= (!empty($_SESSION['sortName']) && $_SESSION['sortName'] === 'user_name') && (!empty($_SESSION['desc']) && $_SESSION['desc'] === 'asc') ? 'desc' : 'asc' ?>">
-                    <input type="submit" value="пользователь">
+                    <input type="submit" value="user">
                 </form>
             </th>
 
@@ -27,12 +27,12 @@
                 </form>
             </th>
 
-            <th scope="col" class="sort_th" style="width: <?= !empty($_SESSION['sortName']) ? '45' : '50' ?>%">
+            <th scope="col" class="sort_th" style="width: <?= !empty($_SESSION['name']) ? '45' : '50' ?>%">
                 <form action="/task/setSort" class="sort_th" method="post">
                     <input type="hidden" name="sort" value="description">
                     <input type="hidden" name="desc"
                            value="<?= (!empty($_SESSION['sortName']) && $_SESSION['sortName'] === 'user_name') && (!empty($_SESSION['desc']) && $_SESSION['desc'] === 'asc') ? 'desc' : 'asc' ?>">
-                    <input type="submit" value="текст задачи">
+                    <input type="submit" value="description">
                 </form>
             </th>
 
@@ -41,7 +41,7 @@
                     <input type="hidden" name="sort" value="done">
                     <input type="hidden" name="desc"
                            value="<?= (!empty($_SESSION['sortName']) && $_SESSION['sortName'] === 'user_name') && (!empty($_SESSION['desc']) && $_SESSION['desc'] === 'asc') ? 'desc' : 'asc' ?>">
-                    <input type="submit" value="статус">
+                    <input type="submit" value="done">
                 </form>
             </th>
 
@@ -53,7 +53,7 @@
                         <input type="hidden" name="sort" value="done">
                         <input type="hidden" name="desc"
                                value="<?= (!empty($_SESSION['sortName']) && $_SESSION['sortName'] === 'user_name') && (!empty($_SESSION['desc']) && $_SESSION['desc'] === 'asc') ? 'desc' : 'asc' ?>">
-                        <input type="submit" value="действия">
+                        <input type="submit" value="action">
                     </form>
                 </th>
                 <?php

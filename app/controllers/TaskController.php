@@ -125,7 +125,10 @@ class TaskController
         $reportErrors = [];
         foreach ($taskData as $nameField => $value) {
             if ($value === '') {
-                $reportErrors[] = 'Поле должно ' . $nameField . ' быть заполнено';
+                $reportErrors[] = $nameField . ' field must be filled';
+            }
+            if (($nameField === 'email') && preg_match('~.+@.+\..+~', $value) !== 1) {
+                $reportErrors[] = 'Field ' . $nameField . ' is not valid';
             }
         }
 

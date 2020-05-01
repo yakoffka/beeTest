@@ -9,7 +9,7 @@
     ?>
     <table class="table">
         <tr>
-            <th scope="col" class="sort_th" style="width: 12%">
+            <th scope="col" class="sort_th" style="width: 8%">
                 <form action="/task/setSort" class="sort_th" method="post">
                     <input type="hidden" name="sort" value="user_name">
                     <input type="hidden" name="desc"
@@ -18,7 +18,7 @@
                 </form>
             </th>
 
-            <th scope="col" class="sort_th" style="width: 12%">
+            <th scope="col" class="sort_th" style="width: 16%">
                 <form action="/task/setSort" class="sort_th" method="post">
                     <input type="hidden" name="sort" value="email">
                     <input type="hidden" name="desc"

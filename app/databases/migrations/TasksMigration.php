@@ -20,6 +20,7 @@ class TasksMigration extends Migration
             $table->string('name');
             $table->string('description');
             $table->boolean('done')->default(false);
+            $table->boolean('edited')->default(false);
             $table->timestamps();
         });
     }

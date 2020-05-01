@@ -37,6 +37,7 @@ class TaskController
     }
 
     /**
+     * show form
      * @return void|array
      */
     public static function edit(): ?array
@@ -67,8 +68,19 @@ class TaskController
     public static function update(): void
     {
         $task = Task::find(self::getValidatedIDFromPost());
+        if (!$task) {
+            $_SESSION['reportErrors'][] = 'Failed to edited task.';
+            header('Location: ' . APP_URL);
+        }
 
-        if ($task->update(self::getUpdateDataFromRequest())) {
+        $dataFromRequest = self::getUpdateDataFromRequest();
+        $task->description = $dataFromRequest['description'];
+        $task->done = $dataFromRequest['done'];
+        if($task->isDirty('description')) {
+            $task->edited = true;
+        }
+
+        if ($task->save()) {
             $_SESSION['reportSuccess'][] = 'Task ' . $task->name . ' successfully edited!';
         } else {
             $_SESSION['reportErrors'][] = 'Failed to edited task.';
@@ -173,7 +185,8 @@ class TaskController
     {
         // @todo: добавить безопасности.. все еще мало золота..
         $return = [
-            'done' => self::clean($_POST['done']) ? true : false,
+            'description' => self::clean($_POST['description'] ?? ''),
+            'done' => self::clean($_POST['done'] ?? '') ? '1' : '0',
         ];
 
         return $return;

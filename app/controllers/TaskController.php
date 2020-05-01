@@ -42,6 +42,7 @@ class TaskController
      */
     public static function edit(): ?array
     {
+        self::authorizeUser();
         $task = Task::find(self::getValidatedIDFromGet());
         if ($task) {
             return [
@@ -67,25 +68,9 @@ class TaskController
      */
     public static function update(): void
     {
-        $task = Task::find(self::getValidatedIDFromPost());
-        if (!$task) {
-            $_SESSION['reportErrors'][] = 'Failed to edited task.';
-            header('Location: ' . APP_URL);
-        }
-
-        $dataFromRequest = self::getUpdateDataFromRequest();
-        $task->description = $dataFromRequest['description'];
-        $task->done = $dataFromRequest['done'];
-        if($task->isDirty('description')) {
-            $task->edited = true;
-        }
-
-        if ($task->save()) {
-            $_SESSION['reportSuccess'][] = 'Task ' . $task->name . ' successfully edited!';
-        } else {
-            $_SESSION['reportErrors'][] = 'Failed to edited task.';
-        }
-        // @todo: СДЕЛАТЬ РЕДИРЕКТ НА ТЕКУЩУЮ СТРАНИЦУ!
+        self::authorizeUser();
+        $task = self::getTask();
+        self::updateEdited($task);
         header('Location: ' . APP_URL);
     }
 
@@ -199,5 +184,48 @@ class TaskController
     private static function clean(string $input)
     {
         return trim(htmlspecialchars(strip_tags($input)));
+    }
+
+    /**
+     * user authorization check
+     */
+    private static function authorizeUser(): void
+    {
+        if (empty($_SESSION['name'])) {
+            header('Location: ' . LOGIN_URL);
+            die();
+        }
+    }
+
+    /**
+     * @return mixed
+     */
+    private static function getTask()
+    {
+        $task = Task::find(self::getValidatedIDFromPost());
+        if (!$task) {
+            $_SESSION['reportErrors'][] = 'Failed to edited task.';
+            header('Location: ' . APP_URL);
+        }
+        return $task;
+    }
+
+    /**
+     * @param $task
+     */
+    private static function updateEdited($task): void
+    {
+        $dataFromRequest = self::getUpdateDataFromRequest();
+        $task->description = $dataFromRequest['description'];
+        $task->done = $dataFromRequest['done'];
+        if ($task->isDirty('description')) {
+            $task->edited = true;
+        }
+
+        if ($task->save()) {
+            $_SESSION['reportSuccess'][] = 'Task ' . $task->name . ' successfully edited!';
+        } else {
+            $_SESSION['reportErrors'][] = 'Failed to edited task.';
+        }
     }
 }

@@ -41,7 +41,7 @@
                     <input type="hidden" name="sort" value="done">
                     <input type="hidden" name="desc"
                            value="<?= (!empty($_SESSION['sortName']) && $_SESSION['sortName'] === 'user_name') && (!empty($_SESSION['desc']) && $_SESSION['desc'] === 'asc') ? 'desc' : 'asc' ?>">
-                    <input type="submit" value="done">
+                    <input type="submit" value="status">
                 </form>
             </th>
 

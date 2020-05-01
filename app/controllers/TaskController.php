@@ -32,7 +32,6 @@ class TaskController
         } else {
             $_SESSION['reportErrors'][] = 'Failed to add task.';
         }
-        // @todo: СДЕЛАТЬ РЕДИРЕКТ НА ПОСЛЕДНЮЮ СТРАНИЦУ!
         header('Location: ' . APP_URL);
     }
 
@@ -50,7 +49,6 @@ class TaskController
                 'task' => $task,
             ];
         }
-        // header('Location: ' . $_SERVER['HTTP_REFERER']);
         header('Location: ' . APP_URL);
     }
 
@@ -59,8 +57,7 @@ class TaskController
      */
     public static function getValidatedIDFromGet(): int
     {
-        // @todo: добавить безопасности.. все еще мало золота..
-        return (int)self::clean($_GET['id']);
+        return self::clean((int)$_GET['id']);
     }
 
     /**
@@ -79,16 +76,15 @@ class TaskController
      */
     public static function getValidatedIDFromPost(): int
     {
-        // @todo: добавить безопасности.. все еще мало золота..
-        return (int)self::clean($_POST['id']);
+        return self::clean((int)$_POST['id']);
     }
 
     /**
-     * @param $nameField
+     * sorting task list
      */
-    public static function setSort($nameField): void
+    public static function setSort(): void
     {
-        // @todo: добавить безопасности.. все еще мало золота..
+        $nameField = self::clean($_POST['sort']) ?? 'id';
         $_SESSION['sortName'] = $nameField;
         $_SESSION['sortDesc'] = ($_SESSION['sortDesc'] === '1') ? '0' : '1';
         header('Location: ' . APP_URL);
@@ -109,7 +105,7 @@ class TaskController
      */
     private static function getCurrentPage(): int
     {
-        return !empty($_GET['page']) ? (int)$_GET['page'] : 1;
+        return !empty($_GET['page']) ? self::clean((int)($_GET['page'])) : 1;
     }
 
     /**
@@ -117,7 +113,7 @@ class TaskController
      */
     private static function getValidatedData(): array
     {
-        $taskData = self::getCreateDataFromRequest();
+        $taskData = self::getCleanCreateData();
 
         $reportErrors = [];
         foreach ($taskData as $nameField => $value) {
@@ -138,9 +134,9 @@ class TaskController
     }
 
     /**
-     * @return Builder[]|Collection
+     * @return Collection
      */
-    private static function getTasks()
+    private static function getTasks(): Collection
     {
         [$sortField, $descending] = self::getSortField();
         return Task::query()
@@ -153,7 +149,7 @@ class TaskController
     /**
      * @return array
      */
-    private static function getCreateDataFromRequest(): array
+    private static function getCleanCreateData(): array
     {
         return [
             'user_name' => self::clean($_POST['user_name']) ?? '',
@@ -166,22 +162,19 @@ class TaskController
     /**
      * @return array
      */
-    private static function getUpdateDataFromRequest(): array
+    private static function getCleanUpdateData(): array
     {
-        // @todo: добавить безопасности.. все еще мало золота..
-        $return = [
+        return [
             'description' => self::clean($_POST['description'] ?? ''),
             'done' => self::clean($_POST['done'] ?? '') ? '1' : '0',
         ];
-
-        return $return;
     }
 
     /**
      * @param string $input
      * @return string
      */
-    private static function clean(string $input)
+    public static function clean(string $input): string
     {
         return trim(htmlspecialchars(strip_tags($input)));
     }
@@ -198,9 +191,9 @@ class TaskController
     }
 
     /**
-     * @return mixed
+     * @return Task|null
      */
-    private static function getTask()
+    private static function getTask(): ?Task
     {
         $task = Task::find(self::getValidatedIDFromPost());
         if (!$task) {
@@ -215,7 +208,7 @@ class TaskController
      */
     private static function updateEdited($task): void
     {
-        $dataFromRequest = self::getUpdateDataFromRequest();
+        $dataFromRequest = self::getCleanUpdateData();
         $task->description = $dataFromRequest['description'];
         $task->done = $dataFromRequest['done'];
         if ($task->isDirty('description')) {

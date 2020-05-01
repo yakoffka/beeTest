@@ -6,14 +6,13 @@ namespace App\controllers;
 
 use App\databases\migrations\TasksMigration;
 use App\databases\migrations\UserMigration;
-use App\models\Task;
 
 class MigrationController
 {
     /**
-     * @return array
+     * @return void
      */
-    public static function refresh(): array
+    public static function refresh(): void
     {
         self::migrate();
         header('Location: ' . APP_URL);

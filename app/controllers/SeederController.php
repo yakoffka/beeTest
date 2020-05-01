@@ -11,6 +11,7 @@ class SeederController
     public static function seeding(): void
     {
         UserController::create('admin', 'admin@example.test', '123');
+
         Task::create(['user_name' => 'Фёдор', 'email' => 'feodor@example.test', 'name' => 'шифрование', 'description' => 'добавить шифрование пароля', 'done' => true]);
         Task::create(['user_name' => 'Якав', 'email' => 'ya@example.test', 'name' => 'валидация email', 'description' => 'продумать валидацию email', 'done' => true]);
         Task::create(['user_name' => 'Фёдор', 'email' => 'feodor@example.test', 'name' => 'пункт 10', 'description' => 'смотри пункт 10 ТЗ', 'done' => true]);

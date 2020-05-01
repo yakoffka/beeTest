@@ -3,8 +3,6 @@
 
 namespace App\routes;
 
-use App\controllers\TaskController;
-use App\controllers\UserController;
 
 class Route
 {
@@ -25,13 +23,6 @@ class Route
         }
 
         $controller_name = $model_name . 'Controller';
-
-//        $controller = new $controller_name();
-//        if (method_exists($controller, $action_name)) {
-//            return [$controller_name, $action_name];
-//        }
-//
-//        return ['ErrorController', 'notFound'];
 
         return [$controller_name, $action_name];
     }

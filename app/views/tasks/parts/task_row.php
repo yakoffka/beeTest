@@ -17,9 +17,6 @@ $tooltip = 'data-toggle="tooltip" data-trigger="click" data-placement="top"';
         ?>
         <td scope="col" class="tac ellipsis">
             <a href="/task/edit?id=<?= $task->id ?>">edit</a>
-            <!--<form action="/task/edit/<?/*= $task->id */ ?>" class="sort_form" method="post">
-                        <input type="submit" value="edit">
-                    </form>-->
         </td>
         <?php
     }

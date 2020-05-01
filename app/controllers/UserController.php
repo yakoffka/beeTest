@@ -54,14 +54,10 @@ class UserController
         return ['view' => 'users/login',];
     }
 
-    /**
-     *
-     */
     public static function authentication(): void
     {
         $userData = self::getValidatedData();
         $user = User::query()->whereName($userData['name'])->first();
-        // var_dump($userData, );
 
         if (password_verify($userData['password'], $user->password)) {
             $_SESSION['reportSuccess'][] = 'Hello ' . $user->name . ' !';
@@ -75,7 +71,7 @@ class UserController
         die();
     }
 
-    public static function logout()
+    public static function logout(): void
     {
         unset($_SESSION['name']);
         header('Location: ' . APP_URL);
@@ -91,7 +87,7 @@ class UserController
         $reportErrors = [];
         foreach ($userData as $nameField => $value) {
             if ($value === '') {
-                $reportErrors[] = 'Поле должно ' . $nameField . ' быть заполнено';
+                $reportErrors[] = $nameField . ' field must be filled';
             }
         }
 

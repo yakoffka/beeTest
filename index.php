@@ -20,15 +20,7 @@ $capsule = new CapsuleInstance();
 
 [$controller_name, $action_name] = Route::start();
 
-// @todo: вынести роутинг в отдельный файл
 if ($controller_name === 'TaskController') {
-
-    if ($action_name === 'setSort') {
-        TaskController::setSort(
-            $_POST['sort'] ?? 'id'
-        );
-    }
-
     $vars = TaskController::$action_name();
 
 } elseif ($controller_name === 'UserController') {
@@ -45,4 +37,4 @@ if ($controller_name === 'TaskController') {
 }
 
 include __DIR__ . '/app/views/layouts/app.php';
-?>
+

@@ -1,4 +1,7 @@
 <?php
+if (!isset($vars)) {
+    $vars = [];
+}
 $task = $vars['task'];
 ?>
 <h2>Task #<?= $task->id ?> '<?= $task->name ?>'</h2>

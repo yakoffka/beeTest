@@ -5,6 +5,7 @@ html, body {
     font-weight: 200;
     /*height: 100vh;*/
     margin: 0;
+    text-align: center;
 }
 
 .full-height {
@@ -79,6 +80,7 @@ input[type="submit"]:hover {
 
 table.table {
     margin-bottom: 3rem;
+    table-layout: fixed;
 }
 table.table a {
     color: #636b6f;
@@ -90,6 +92,23 @@ table.table a:hover {
 table.table td,
 table.table th {
     text-align: left;
+}
+.block {
+    display: block;
+}
+table.table tr th.ellipsis,
+table.table tr td.ellipsis {
+    /*white-space: nowrap;*/
+    /*overflow:hidden;*/
+    /*text-overflow: ellipsis;*/
+
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+table.table tr th.tac,
+table.table tr td.tac {
+    text-align: center
 }
 
 
@@ -134,5 +153,28 @@ table.table th {
     text-decoration: none;
     transition: all 0.5s ease-out 0s;
 }
+
+
+.bs-tooltip-top .arrow::before, .bs-tooltip-auto[x-placement^="top"] .arrow::before {
+    border-top-color: #0099ff; /* цвет стрелочки (по умолчанию #000)*/
+}
+.bs-tooltip-right .arrow::before, .bs-tooltip-auto[x-placement^="right"] .arrow::before {
+    border-right-color: #0099ff; /* цвет стрелочки (по умолчанию #000)*/
+}
+.bs-tooltip-bottom .arrow::before, .bs-tooltip-auto[x-placement^="bottom"] .arrow::before {
+    border-bottom-color: #0099ff; /* цвет стрелочки (по умолчанию #000) */
+}
+.bs-tooltip-left .arrow::before, .bs-tooltip-auto[x-placement^="left"] .arrow::before {
+    border-left-color: #0099ff; /* цвет стрелочки (по умолчанию #000) */
+}
+.tooltip-inner {
+    max-width: 800px; /* максимальная ширина подсказки (по умолчанию 200px) */
+    color: #fff; /* цвет шрифта */
+    background-color: #0099ff; /* цвет фона (по умолчанию #000) */
+    border-radius: 0.25rem; /* радиус скругдения углов */
+}
+
+
+
 
 

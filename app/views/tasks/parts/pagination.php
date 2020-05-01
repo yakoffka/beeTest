@@ -1,4 +1,7 @@
 <?php
+if (!isset($tasks)) {
+    $tasks = [];
+}
 if (count($tasks) > 1) {
 
     $backEnabled = $forwardEnabled = '';
@@ -11,6 +14,9 @@ if (count($tasks) > 1) {
                     href="/task/index?page=' . count($tasks) . '" rel="next" 
                     aria-label="« Назад">‹</a>';
 
+    if (!isset($vars)) {
+        $vars = [];
+    }
     if ($vars['currPage'] === 1) {
         $backEnabled = ' disabled';
         $aBack = '<span class="page-link" aria-hidden="true">‹</span>';

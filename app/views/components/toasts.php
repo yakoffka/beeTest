@@ -1,4 +1,3 @@
-
 <div class="toasts">
     <?php
     if (!empty($_SESSION['reportErrors'])) {

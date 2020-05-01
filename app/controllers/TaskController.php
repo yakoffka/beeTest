@@ -37,9 +37,9 @@ class TaskController
     }
 
     /**
-     * @return array
+     * @return void|array
      */
-    public static function edit(): array
+    public static function edit(): ?array
     {
         $task = Task::find(self::getValidatedIDFromGet());
         if ($task) {
@@ -91,8 +91,20 @@ class TaskController
      */
     public static function setSort($nameField): void
     {
+        // @todo: добавить безопасности.. все еще мало золота..
         $_SESSION['sortName'] = $nameField;
+        $_SESSION['sortDesc'] = ($_SESSION['sortDesc'] === '1') ? '0' : '1';
         header('Location: ' . APP_URL);
+    }
+
+    /**
+     * @return array
+     */
+    private static function getSortField(): array
+    {
+        $sortField = !empty($_SESSION['sortName']) ? $_SESSION['sortName'] : 'id';
+        $descending = $_SESSION['sortDesc'] ?? '0';
+        return [$sortField, $descending];
     }
 
     /**
@@ -101,14 +113,6 @@ class TaskController
     private static function getCurrentPage(): int
     {
         return !empty($_GET['page']) ? (int)$_GET['page'] : 1;
-    }
-
-    /**
-     * @return string
-     */
-    private static function getSortField(): string
-    {
-        return !empty($_SESSION['sortName']) ? $_SESSION['sortName'] : 'id';
     }
 
     /**
@@ -138,11 +142,11 @@ class TaskController
      */
     private static function getTasks()
     {
-        $sortField = self::getSortField();
+        [$sortField, $descending] = self::getSortField();
         return Task::query()
             ->where('id', '>', 0)
             ->get()
-            ->sortBy($sortField)
+            ->sortBy($sortField, SORT_REGULAR, $descending)
             ->chunk(Task::$chunk);
     }
 

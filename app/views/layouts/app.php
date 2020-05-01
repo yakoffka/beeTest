@@ -31,45 +31,50 @@
 </div>
 
 
-<div class="">
-    <div class="content">
-        <div class="container">
+<div class="container">
 
-            <?php
-            include __DIR__ . '/../components/toasts.php';
-            ?>
+    <?php
+    include __DIR__ . '/../components/toasts.php';
+    ?>
 
-            <?php
-            if (!empty($vars['view'])) {
-                include __DIR__ . '/../' . $vars['view'] . '.php';
-            }
-            ?>
+    <?php
+    if (!empty($vars['view'])) {
+        include __DIR__ . '/../' . $vars['view'] . '.php';
+    }
+    ?>
 
-            <div class="links">
-                <a href="/user/login">login</a>
-                <a href="/task/index">tasks</a>
-                <a href="/migration/refresh">migration refresh</a>
-                <a href="/seeder/seeding">seeding</a>
-                <a href="https://github.com/yakoffka/beeTest" target="_blank">GitHub</a>
-            </div>
-
-            <div class="info">
-                <?php
-                echo ' sorting: ' . ($_SESSION['sortName'] ?? 'none') . ';';
-                echo ' user: ' . ($_SESSION['name'] ?? 'no login') . ';';
-                ?>
-            </div>
-
-        </div>
+    <div class="links">
+        <a href="/user/login">login</a>
+        <a href="/task/index">tasks</a>
+        <a href="/migration/refresh">migration refresh</a>
+        <a href="/seeder/seeding">seeding</a>
+        <a href="https://github.com/yakoffka/beeTest" target="_blank">GitHub</a>
     </div>
+
+    <div class="info">
+        <?php
+        echo ' sortName: ' . ($_SESSION['sortName'] ?? 'none') . ';';
+        echo ' sortDesc: ' . ($_SESSION['sortDesc'] ?? 'none') . ';';
+        echo ' user: ' . ($_SESSION['name'] ?? 'no login') . ';';
+        ?>
+    </div>
+
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
 
 <!--Инициализация всплывающих сообщений через JavaScript-->
 <script>
     $('.toast').toast('show');
+</script>
+
+<script>
+    $('.tr-tooltip').tooltip({
+        delay: {show: 50, hide: 50},
+        boundary: 'string'
+    })
 </script>
 
 </body>

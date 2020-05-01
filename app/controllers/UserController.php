@@ -28,6 +28,7 @@ class UserController
             $_SESSION['reportErrors'][] = 'Failed to seeded user.';
         }
         header('Location: ' . APP_URL);
+        // die();
     }
 
     /**
@@ -60,7 +61,7 @@ class UserController
         $user = User::query()->whereName($userData['name'])->first();
 
         if (password_verify($userData['password'], $user->password)) {
-            $_SESSION['reportSuccess'][] = 'Hello ' . $user->name . ' !';
+            $_SESSION['reportSuccess'][] = 'Hello! You are logged in as ' . $user->name . '.';
             $_SESSION['name'] = $user->name;
             header('Location: ' . APP_URL);
             die();
@@ -74,7 +75,9 @@ class UserController
     public static function logout(): void
     {
         unset($_SESSION['name']);
+        $_SESSION['reportSuccess'][] = 'see you..';
         header('Location: ' . APP_URL);
+        die();
     }
 
     /**

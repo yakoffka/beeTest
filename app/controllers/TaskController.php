@@ -3,7 +3,6 @@
 namespace App\controllers;
 
 use App\models\Task;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 
 class TaskController
@@ -33,6 +32,7 @@ class TaskController
             $_SESSION['reportErrors'][] = 'Failed to add task.';
         }
         header('Location: ' . APP_URL);
+        die();
     }
 
     /**

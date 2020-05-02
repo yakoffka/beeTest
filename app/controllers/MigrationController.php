@@ -6,44 +6,47 @@ namespace App\controllers;
 
 use App\databases\migrations\TasksMigration;
 use App\databases\migrations\UserMigration;
+use App\services\NotificationService;
 
-class MigrationController
+class MigrationController extends BaseController
 {
     /**
      * @return void
      */
-    public static function refresh(): void
+    public function refresh(): void
     {
-        self::migrate();
-        header('Location: ' . APP_URL);
+        $this->migrate();
+        $this->redirect(APP_URL);
     }
 
     /**
      * performs migration
      */
-    private static function migrate(): void
+    private function migrate(): void
     {
-        self::taskMigrate();
-        self::userMigrate();
+        $this->taskMigrate();
+        $this->userMigrate();
     }
 
     /**
      * performs task table migration
      */
-    private static function taskMigrate(): void
+    private function taskMigrate(): void
     {
         $taskMigration = new TasksMigration();
         $taskMigration->down();
         $taskMigration->up();
+        NotificationService::sendInfo('tasks table refresh successfully');
     }
 
     /**
      * performs user table migration
      */
-    private static function userMigrate(): void
+    private function userMigrate(): void
     {
         $userMigration = new UserMigration();
         $userMigration->down();
         $userMigration->up();
+        NotificationService::sendInfo('users table refresh successfully');
     }
 }

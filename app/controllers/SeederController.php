@@ -5,13 +5,31 @@ namespace App\controllers;
 
 
 use App\models\Task;
+use App\services\NotificationService;
 
-class SeederController
+class SeederController extends BaseController
 {
-    public static function seeding(): void
+    public function seedingAll(): void
     {
-        UserController::create('admin', 'admin@example.test', '123');
+        $this->userSeeding();
+        $this->tasksSeeding();
+        $this->redirect(APP_URL);
+    }
 
+    public function seedingOnlyUser(): void
+    {
+        $this->userSeeding();
+        $this->redirect(APP_URL);
+    }
+
+    protected function userSeeding(): void
+    {
+        $userController = new UserController();
+        $userController->create('admin', 'admin@example.test', '123');
+    }
+
+    protected function tasksSeeding(): void
+    {
         Task::create(['user_name' => 'Фёдор', 'email' => 'feodor@example.test', 'name' => 'шифрование', 'description' => 'добавить шифрование пароля', 'done' => true]);
         Task::create(['user_name' => 'Якав', 'email' => 'ya@example.test', 'name' => 'валидация email', 'description' => 'продумать валидацию email', 'done' => true]);
         Task::create(['user_name' => 'Фёдор', 'email' => 'feodor@example.test', 'name' => 'пункт 10', 'description' => 'смотри пункт 10 ТЗ', 'done' => true]);
@@ -23,9 +41,6 @@ class SeederController
         Task::create(['user_name' => 'Настя', 'email' => 'nastya@example.test', 'name' => 'проверка XSS', 'description' => 'проверить приложение на отсутствие XSS уязвимости', 'done' => true]);
         Task::create(['user_name' => 'Марина', 'email' => 'marina@example.test', 'name' => 'сортировка по убыванию', 'description' => 'добавить сортировку по убыванию', 'done' => true]);
 
-        $_SESSION['reportSuccess'][] = 'Tasks successfully seeded!';
-        header('Location: ' . APP_URL);
-        die();
+        NotificationService::sendInfo('Tasks successfully seeded!');
     }
-
 }

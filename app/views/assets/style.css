@@ -187,3 +187,27 @@ table.table tr td.tac {
 }
 
 
+
+/*
+    <div class="session after">
+        <?php
+        echo '<pre>$_SESSION after:' . print_r($_SESSION, true) . '</pre>';
+        ?>
+    </div>
+ */
+.session {
+    position: absolute;
+    top: 1em;
+    left: 1em;
+    opacity: 70%;
+    z-index: 5;
+    text-align: left;
+    border: 1px solid #cfd8e2;
+    border-radius: 3px;
+    background-color: #fff;
+    padding: 1em;
+}
+.session.after {
+    left: 40%;
+}
+

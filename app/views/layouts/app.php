@@ -47,7 +47,8 @@
         <a href="/user/login">login</a>
         <a href="/task/index">tasks</a>
         <a href="/migration/refresh">migration refresh</a>
-        <a href="/seeder/seeding">seeding</a>
+        <a href="/seeder/seedingOnlyUser">seeding user</a>
+        <a href="/seeder/seedingAll">seeding user&tasks</a>
         <a href="https://github.com/yakoffka/beeTest" target="_blank">GitHub</a>
     </div>
 
@@ -79,6 +80,3 @@
 
 </body>
 </html>
-
-<?php
-session_write_close();

@@ -7,6 +7,12 @@ use App\services\NotificationService;
 
 class UserController extends BaseController
 {
+    protected array $rules = [
+        'name' => 'required',
+        'email' => 'required|email',
+        'password' => 'required',
+    ];
+
     /**
      * Show login form
      *
@@ -22,8 +28,12 @@ class UserController extends BaseController
      */
     public function authentication(): void
     {
-        $userData = $this->getValidatedData();
-        $user = User::query()->whereName($userData['name'])->first();
+        $userData = $this->getValidated([
+            'name',
+            'password',
+        ]);
+
+        $user = $this->getUserByName($userData['name']);
 
         if (password_verify($userData['password'], $user->password)) {
             NotificationService::sendInfo('Hello! You are logged in as ' . $user->name);
@@ -46,35 +56,16 @@ class UserController extends BaseController
     }
 
     /**
-     * @return array
+     * @param $name
+     * @return User
      */
-    private function getValidatedData(): array
+    protected function getUserByName($name): User
     {
-        $userData = $this->getDataFromRequest();
-
-        foreach ($userData as $nameField => $value) {
-            if ($value === '') {
-                $error = true;
-                NotificationService::sendError($nameField . ' field must be filled');
-            }
+        $user = User::query()->whereName($name)->first();
+        if ($user) {
+            return $user;
         }
 
-        if (!empty($error)) {
-            $this->redirect(LOGIN_URL);
-        }
-
-        return $userData;
+        $this->redirect(LOGIN_URL);
     }
-
-    /**
-     * @return array
-     */
-    private function getDataFromRequest(): array
-    {
-        return [
-            'name' => $this->clean($_POST['name'] ?? ''),
-            'password' => $this->clean($_POST['password'] ?? ''),
-        ];
-    }
-
 }

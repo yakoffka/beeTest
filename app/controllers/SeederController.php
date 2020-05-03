@@ -25,7 +25,10 @@ class SeederController extends BaseController
 
     protected function userSeeding(): void
     {
-        $name = 'admin'; $email = 'admin@example.test'; $password = '123';
+        $name = 'admin';
+        $email = 'admin@example.test';
+        $password = password_hash('123', PASSWORD_BCRYPT, ['cost' => 10,]);
+
         if ($this->getUser($email)) {
             NotificationService::sendWarning('User already seeded!');
             $this->redirect(APP_URL);

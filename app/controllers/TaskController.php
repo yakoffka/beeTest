@@ -63,21 +63,6 @@ class TaskController extends BaseController
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @return array
-     */
-    public function edit(): array
-    {
-        $this->checkAuthorizeUser();
-        $task = $this->getTaskFrom('GET');
-        return [
-            'view' => 'tasks/show',
-            'task' => $task,
-        ];
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @return void
@@ -182,7 +167,8 @@ class TaskController extends BaseController
     private function checkAuthorizeUser(): void
     {
         if (empty($_SESSION['name'])) {
-            $this->redirect(LOGIN_URL);
+            $_SESSION['login_modal_show'] = ' show';
+            $this->redirect(APP_URL);
         }
     }
 

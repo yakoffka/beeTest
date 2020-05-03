@@ -11,10 +11,11 @@
 </head>
 <body>
 
+
 <div class="navbar navbar-dark bg-dark shadow-sm">
     <div class="container d-flex justify-content-between">
         <a href="/" class="navbar-brand d-flex align-items-center">
-            <strong><?= APP_NAME ?></strong>
+            <strong><?= APP_NAME ?> v<?= APP_VERSION ?></strong>
         </a>
 
         <div class="login">
@@ -22,7 +23,7 @@
             if (!empty($_SESSION['name'])) {
                 echo 'You are logged in as ' . $_SESSION['name'] . ' <a href="/user/logout">logout</a>';
             } else {
-                echo ' <a href="/user/login">login</a>';
+                include __DIR__ . '/../modals/login.php';
             }
             ?>
         </div>
@@ -44,7 +45,15 @@
     ?>
 
     <div class="links">
-        <a href="/user/login">login</a>
+        <?php
+        if (!empty($_SESSION['name'])) {
+            echo '<a href="/user/logout">logout</a>';
+        } else {
+            $modal = true;
+            include __DIR__ . '/../modals/login.php';
+        }
+        ?>
+
         <a href="/task/index">tasks</a>
         <a href="/migration/refresh">migration refresh</a>
         <a href="/seeder/seedingOnlyUser">seeding user</a>
@@ -62,6 +71,7 @@
 
 </div>
 
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
@@ -78,5 +88,8 @@
     })
 </script>
 
+<?php
+session_write_close();
+?>
 </body>
 </html>

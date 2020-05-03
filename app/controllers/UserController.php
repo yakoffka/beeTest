@@ -14,16 +14,6 @@ class UserController extends BaseController
     ];
 
     /**
-     * Show login form
-     *
-     * @return array|string[]
-     */
-    public function login(): array
-    {
-        return ['view' => 'users/login',];
-    }
-
-    /**
      * User entry into the application
      */
     public function authentication(): void
@@ -42,7 +32,8 @@ class UserController extends BaseController
         }
 
         NotificationService::sendError('failed authentication!');
-        $this->redirect(LOGIN_URL);
+        $_SESSION['login_modal_show'] = ' show';
+        $this->redirect(APP_URL);
     }
 
     /**
@@ -66,6 +57,8 @@ class UserController extends BaseController
             return $user;
         }
 
-        $this->redirect(LOGIN_URL);
+        NotificationService::sendError('failed authentication!');
+        $_SESSION['login_modal_show'] = ' show';
+        $this->redirect(APP_URL);
     }
 }

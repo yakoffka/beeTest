@@ -7,4 +7,6 @@ define('DB_USER', 'homestead');
 define('DB_PASSWORD', 'secret');
 define('APP_NAME', 'test job');
 define('APP_URL', 'http://bee.test/');
-define('LOGIN_URL', 'http://bee.test/user/login');
+define('APP_VERSION', '2.0');
+define('TASK_CHUNK', '3');
+define('DEBUG_MODE', true);

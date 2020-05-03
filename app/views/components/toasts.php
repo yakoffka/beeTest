@@ -31,7 +31,5 @@
         unset($_SESSION['info'])    ;
     }
 
-    session_write_close();
-
     ?>
 </div>

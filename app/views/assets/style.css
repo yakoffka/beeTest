@@ -8,6 +8,27 @@ html, body {
     text-align: center;
 }
 
+a.cursor_pointer {
+    cursor: pointer;
+}
+h5.modal-title {
+    color: #09f;
+}
+
+/*.task-list {
+    height: 250px;
+}*/
+form.add_task .pl0 {
+    padding-left: 0;
+    padding-right: 5px;
+}
+form.add_task label {
+    text-align: left;
+    display: block;
+    padding-left: .7em;
+    color: #1a6fa8;
+}
+
 .full-height {
     height: 100vh;
 }
@@ -54,27 +75,53 @@ html, body {
 }
 
 .navbar.navbar-dark.bg-dark.shadow-sm {
-    margin-bottom: 2em;
+    margin-bottom: 1em;
 }
 
-table.table input[type="submit"] {
-    color: #1a6fa8;
-    border: 0px solid transparent;
+
+input[type="submit"]:hover {
+    color: #09f;
     background-color: transparent;
-    cursor: pointer;
+    border: 0px solid #d7dce2;
 }
 input[type="submit"] {
     color: #1a6fa8;
-    border: 5px solid #cfd8e2;
+    background-color: transparent;
+    border: 0px solid #d7dce2;
+}
+
+input[type="submit"].yo_submit:hover,
+button.btn.cancel_b:hover {
+    color: #09f;
+    background-color: #d7dce2;
+    border: 7px solid #d7dce2;
+    border-right-width: 17px;
+    border-left-width: 17px;
+}
+
+input[type="submit"].yo_submit,
+button.btn.cancel_b {
+    color: #1a6fa8;
+    border: 7px solid #cfd8e2;
     border-right-width: 17px;
     border-left-width: 17px;
     background-color: #cfd8e2;
     cursor: pointer;
-}
-input[type="submit"]:hover {
-    color: #09f;
+    border-radius: 2px;
 }
 
+button.btn.cancel_b:hover {
+    color: #93333d;
+}
+
+button.btn.cancel_b {
+    color: #93333d;
+}
+
+
+table.table th {
+    border-top: none;
+}
 
 .page-item.active .page-link {
     color: #09f;
@@ -90,7 +137,7 @@ input[type="submit"]:hover {
 
 
 table.table {
-    margin-bottom: 3rem;
+    /*margin-bottom: 3rem;*/
     table-layout: fixed;
 }
 table.table a {
@@ -113,11 +160,22 @@ table.table tr td.ellipsis {
     white-space: nowrap;
     text-overflow: ellipsis;
 }
+table.table tr td.ellipsis .modal-body{
+    overflow: visible;
+    white-space: normal;
+    text-overflow: clip;
+}
 table.table tr th.tac,
 table.table tr td.tac {
     text-align: center
 }
 
+.table th {
+    padding: .6rem;
+}
+.table td {
+    padding: .45rem;
+}
 
 .pagination {
     padding-left: .4em;
@@ -128,16 +186,38 @@ table.table tr td.tac {
 .page-link {
     padding: .3rem .6rem;
 }
-
+.pagination ul.pagination {
+    margin-bottom: 0;
+}
+.pagination ul.pagination .page-link.dump {
+    border: 1px solid transparent;
+    cursor: default;
+}
+.pagination ul.pagination .page-link.dump:hover {
+    background-color: transparent;
+}
 
 .empty_list {
     text-align: center;
     padding: 5%;
-    margin: auto;
+    margin: 0 25%;
+    min-width:50%;
+
+    position: absolute;
+    top: 6em;
+    left: 1em;
+    opacity: 70%;
+    z-index: 5;
+    border: 1px solid #cfd8e2;
+    border-radius: 3px;
+    background-color: #fff;
+    color: #09f;
+    font-size: 1.4em;
 }
 
 .toasts {
     position: absolute; top: 5em; right: 7em;
+    z-index: 6;
 }
 .toasts .toast {
     min-width: 300px;
@@ -210,4 +290,29 @@ table.table tr td.tac {
 .session.after {
     left: 40%;
 }
+
+
+
+.modal-dialog {
+    max-width: 50%;
+}
+
+
+
+
+#loginModalCenter.modal_login_yo {
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 5;
+}
+#loginModalCenter.modal_login_yo a.modal_close_yo {
+    text-decoration: none;
+}
+#loginModalCenter.modal_login_yo button.btn.cancel_b:hover a{
+    color: #93333d;
+}
+
+#loginModalCenter.modal_login_yo button.btn.cancel_b a{
+    color: #93333d;
+}
+
 

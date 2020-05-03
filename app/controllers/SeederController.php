@@ -27,7 +27,7 @@ class SeederController extends BaseController
     {
         $name = 'admin';
         $email = 'admin@example.test';
-        $password = password_hash('123', PASSWORD_BCRYPT, ['cost' => 10,]);
+        $password = password_hash('123', PASSWORD_BCRYPT, ['cost' => 13,]);
 
         if ($this->getUser($email)) {
             NotificationService::sendWarning('User already seeded!');

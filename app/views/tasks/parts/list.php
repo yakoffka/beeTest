@@ -81,7 +81,7 @@
                 echo $dump;
             }
 
-            echo '<div class="empty_list">The list of tasks is still empty.<br>But you can add the first task!</div>';
+            // echo '<div class="empty_list">The list of tasks is still empty.<br>But you can add the first task!</div>';
         }
 
         ?>

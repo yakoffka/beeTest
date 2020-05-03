@@ -8,45 +8,8 @@ use App\services\NotificationService;
 class UserController extends BaseController
 {
     /**
-     * @param string $name
-     * @param string $email
-     * @param string $password
-     */
-    public function create(string $name, string $email, string $password): void
-    {
-        $userData = $this->getUserData($name, $email, $password);
-
-        if (User::query()->firstWhere('email', '=', $email)) {
-            NotificationService::sendWarning('User already seeded!');
-            $this->redirect(APP_URL);
-        }
-
-        $user = User::create($userData);
-        if ($user) {
-            NotificationService::sendInfo('User ' . $user->name . ' successfully seeded!');
-        } else {
-            NotificationService::sendError('User already seeded!');
-        }
-        $this->redirect(APP_URL);
-    }
-
-    /**
-     * @param string $name
-     * @param string $email
-     * @param string $password
-     * @return string[]
-     */
-    private function getUserData(string $name, string $email, string $password): array
-    {
-        return [
-            'name' => $name,
-            'email' => $email,
-            'password' => password_hash($password, PASSWORD_BCRYPT, ['cost' => 10,]),
-        ];
-    }
-
-    /**
-     * show login form
+     * Show login form
+     *
      * @return array|string[]
      */
     public function login(): array
@@ -54,6 +17,9 @@ class UserController extends BaseController
         return ['view' => 'users/login',];
     }
 
+    /**
+     * User entry into the application
+     */
     public function authentication(): void
     {
         $userData = $this->getValidatedData();
@@ -69,6 +35,9 @@ class UserController extends BaseController
         $this->redirect(LOGIN_URL);
     }
 
+    /**
+     * Logging out a user
+     */
     public function logout(): void
     {
         unset($_SESSION['name']);

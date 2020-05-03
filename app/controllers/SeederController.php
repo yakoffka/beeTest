@@ -5,6 +5,7 @@ namespace App\controllers;
 
 
 use App\models\Task;
+use App\models\User;
 use App\services\NotificationService;
 
 class SeederController extends BaseController
@@ -24,8 +25,18 @@ class SeederController extends BaseController
 
     protected function userSeeding(): void
     {
-        $userController = new UserController();
-        $userController->create('admin', 'admin@example.test', '123');
+        $name = 'admin'; $email = 'admin@example.test'; $password = '123';
+        if ($this->getUser($email)) {
+            NotificationService::sendWarning('User already seeded!');
+            $this->redirect(APP_URL);
+        }
+
+        $user = User::create(['name' => $name, 'email' => $email, 'password' => $password]);
+        if ($user) {
+            NotificationService::sendInfo('User ' . $user->name . ' successfully seeded!');
+        } else {
+            NotificationService::sendError('User already seeded!');
+        }
     }
 
     protected function tasksSeeding(): void
@@ -42,5 +53,14 @@ class SeederController extends BaseController
         Task::create(['user_name' => 'Марина', 'email' => 'marina@example.test', 'name' => 'сортировка по убыванию', 'description' => 'добавить сортировку по убыванию', 'done' => true]);
 
         NotificationService::sendInfo('Tasks successfully seeded!');
+    }
+
+    /**
+     * @param string $email
+     * @return User|null
+     */
+    protected function getUser(string $email): ?User
+    {
+        return User::query()->firstWhere('email', '=', $email);
     }
 }

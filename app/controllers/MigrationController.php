@@ -16,7 +16,7 @@ class MigrationController extends BaseController
     public function refresh(): void
     {
         $this->migrate();
-        $this->redirect(APP_URL);
+        $this->redirect(APP_USEED);
     }
 
     /**

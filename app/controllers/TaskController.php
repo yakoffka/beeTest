@@ -53,16 +53,6 @@ class TaskController extends BaseController
     }
 
     /**
-     * @param $id
-     * @return array
-     */
-    public function show($id): array
-    {
-        // @todo: реализовать метод!
-        return [];
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @return void
@@ -88,18 +78,6 @@ class TaskController extends BaseController
             NotificationService::sendError('Failed to edited task.');
         }
 
-        $this->redirect(APP_URL);
-    }
-
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     */
-    public function destroy($id): void
-    {
-        // @todo: реализовать метод!
         $this->redirect(APP_URL);
     }
 

@@ -45,6 +45,7 @@
     ?>
 
     <div class="links">
+
         <?php
         if (!empty($_SESSION['name'])) {
             echo '<a href="/user/logout">logout</a>';
@@ -55,18 +56,15 @@
         ?>
 
         <a href="/task/index">tasks</a>
-        <a href="/migration/refresh">migration refresh</a>
-        <a href="/seeder/seedingOnlyUser">seeding user</a>
-        <a href="/seeder/seedingAll">seeding user&tasks</a>
-        <a href="https://github.com/yakoffka/beeTest" target="_blank">GitHub</a>
-    </div>
-
-    <div class="info">
         <?php
-        echo ' sortName: ' . ($_SESSION['sortName'] ?? 'none') . ';';
-        echo ' sortDesc: ' . ($_SESSION['sortDesc'] ?? 'none') . ';';
-        echo ' user: ' . ($_SESSION['name'] ?? 'no login') . ';';
+        if (!empty($_SESSION['name'])) {
+            ?>
+            <a href="/migration/refresh">migration refresh</a>
+            <a href="/seeder/seedingTask">seeding tasks</a>
+            <?php
+        }
         ?>
+        <a href="https://github.com/yakoffka/beeTest" target="_blank">GitHub</a>
     </div>
 
 </div>

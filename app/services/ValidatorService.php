@@ -11,11 +11,12 @@ class ValidatorService
      * преобразует строку с правилами валидации в массив с разделителем, равным по умолчанию '|'
      *
      * @param string $rules
+     * @param string $delimiter
      * @return array
      */
-    public function getRules(string $rules, $delimiter = '|'): array
+    public function explodeString(string $rules, $delimiter = '|'): array
     {
-        return explode('|', $rules);
+        return explode($delimiter, $rules);
     }
 
     /**
@@ -54,5 +55,14 @@ class ValidatorService
     {
         // @todo: описать метод!
         return true;
+    }
+
+    /**
+     * @param $value
+     * @return bool
+     */
+    public function isBool($value): bool
+    {
+        return in_array($value, [true, false, 'on', '', '1', '0'], true);
     }
 }

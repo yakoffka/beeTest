@@ -8,11 +8,12 @@ use Illuminate\Database\Eloquent\Collection;
 
 class TaskController extends BaseController
 {
-    public array $fieldsRules = [
+    protected array $rules = [
         'user_name' => 'required',
         'email' => 'required|email',
         'name' => 'required',
         'description' => 'required',
+        'done' => 'bool',
     ];
 
     /**
@@ -35,7 +36,7 @@ class TaskController extends BaseController
      */
     public function store(): void
     {
-        $task = Task::create($this->validate([
+        $task = Task::create($this->getValidated([
             'user_name',
             'email',
             'name',
@@ -68,10 +69,10 @@ class TaskController extends BaseController
      */
     public function edit(): ?array
     {
-        $this->authorizeUser();
+        $this->checkAuthorizeUser();
         $task = Task::find($this->getValidatedIDFromGet());
         
-        if ($task) {
+        if ($task) { // @todo: вынести проверку в $this->getTask() (продумать get and post)
             return [
                 'view' => 'tasks/show',
                 'task' => $task,
@@ -88,9 +89,25 @@ class TaskController extends BaseController
      */
     public function update(): void
     {
-        $this->authorizeUser();
+        $this->checkAuthorizeUser();
         $task = $this->getTask();
-        $this->updateEdited($task);
+
+        $newProperties = $this->getValidated([
+            'description',
+            'done',
+        ]);
+
+        foreach ($newProperties as $key => $val) {
+            $task->{$key} = $val;
+        }
+        $task->edited ??= $task->isDirty('description');
+
+        if ($task->save()) {
+            NotificationService::sendInfo('Task ' . $task->name . ' successfully edited!');
+        } else {
+            NotificationService::sendError('Failed to edited task.');
+        }
+
         $this->redirect(APP_URL);
     }
 
@@ -123,11 +140,11 @@ class TaskController extends BaseController
     }
 
     /**
-     * sorting task list
+     * Sorting task list
      */
     public function setSort(): void
     {
-        $nameField = $this->clean($_POST['sort']) ?? 'id';
+        $nameField = $this->clean($_POST['sort'] ?? 'id');
         $_SESSION['sortName'] = $nameField;
         $_SESSION['sortDesc'] = ($_SESSION['sortDesc'] === '1') ? '0' : '1';
         $this->redirect(APP_URL);
@@ -152,30 +169,6 @@ class TaskController extends BaseController
     }
 
     /**
-     * @return array
-     */
-    private function getValidatedData(): array
-    {
-        $taskData = $this->getCleanCreateData();
-
-        $errors = [];
-        foreach ($taskData as $nameField => $value) {
-            if ($value === '') {
-                $errors[] = $nameField . ' field must be filled';
-            }
-            if (($nameField === 'email') && preg_match('~.+@.+\..+~', $value) !== 1) {
-                $errors[] = 'Field ' . $nameField . ' is not valid';
-            }
-        }
-
-        if (!empty($errors)) {
-            NotificationService::sendError($errors);
-            $this->redirect(APP_URL);
-        }
-        return $taskData;
-    }
-
-    /**
      * @return Collection
      */
     private function getTasks(): Collection
@@ -189,34 +182,9 @@ class TaskController extends BaseController
     }
 
     /**
-     * @return array
+     * User authorization check
      */
-    private function getCleanCreateData(): array
-    {
-        return [
-            'user_name' => $this->clean($_POST['user_name']) ?? '',
-            'email' => $this->clean($_POST['email']) ?? '',
-            'name' => $this->clean($_POST['name']) ?? '',
-            'description' => $this->clean($_POST['description']) ?? ''
-        ];
-    }
-
-    /**
-     * @return array
-     */
-    private function getCleanUpdateData(): array
-    {
-        return [
-            'description' => $this->clean($_POST['description'] ?? ''),
-            'done' => $this->clean($_POST['done'] ?? '') ? '1' : '0',
-        ];
-    }
-
-
-    /**
-     * user authorization check
-     */
-    private function authorizeUser(): void
+    private function checkAuthorizeUser(): void
     {
         if (empty($_SESSION['name'])) {
             $this->redirect(LOGIN_URL);
@@ -224,34 +192,15 @@ class TaskController extends BaseController
     }
 
     /**
-     * @return Task|null
+     * @return Task
      */
-    private function getTask(): ?Task
+    private function getTask(): Task
     {
         $task = Task::find($this->getValidatedIDFromPost());
         if (!$task) {
-            NotificationService::sendError('Failed to edited task.');
+            NotificationService::sendError('Failed to get task.');
             $this->redirect(APP_URL);
         }
         return $task;
-    }
-
-    /**
-     * @param $task
-     */
-    private function updateEdited($task): void
-    {
-        $dataFromRequest = $this->getCleanUpdateData();
-        $task->description = $dataFromRequest['description'];
-        $task->done = $dataFromRequest['done'];
-        if ($task->isDirty('description')) {
-            $task->edited = true;
-        }
-
-        if ($task->save()) {
-            NotificationService::sendInfo('Task ' . $task->name . ' successfully edited!');
-        } else {
-            NotificationService::sendError('Failed to edited task.');
-        }
     }
 }

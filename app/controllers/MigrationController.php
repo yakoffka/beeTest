@@ -36,7 +36,7 @@ class MigrationController extends BaseController
         $taskMigration = new TasksMigration();
         $taskMigration->down();
         $taskMigration->up();
-        NotificationService::sendInfo('tasks table refresh successfully');
+        NotificationService::sendInfo('"tasks" table refresh successfully');
     }
 
     /**
@@ -47,6 +47,6 @@ class MigrationController extends BaseController
         $userMigration = new UserMigration();
         $userMigration->down();
         $userMigration->up();
-        NotificationService::sendInfo('users table refresh successfully');
+        NotificationService::sendInfo('"users" table refresh successfully');
     }
 }

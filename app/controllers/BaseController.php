@@ -9,7 +9,7 @@ use App\services\ValidatorService;
 
 class BaseController
 {
-    public array $fieldsRules = [];
+    protected array $rules = [];
     protected ValidatorService $validator;
 
     /**
@@ -27,6 +27,7 @@ class BaseController
     {
         session_write_close();
         header('Location: ' . $to);
+        die();
     }
 
     /**
@@ -44,21 +45,35 @@ class BaseController
 
     /**
      * @param array $values
-     * @param array $fieldsRules
+     * @param array $rules
      */
-    public function checkRules(array $values, array $fieldsRules): void
+    public function checkRules(array $values, array $rules): void
     {
-        array_map(function (string $key, string $val, string $strRules) use (&$errors) {
-
-            $rules = $this->validator->getRules($strRules);
-            foreach ($rules as $rule) {
+        array_map(function (string $key, string $val, string $strThisFieldRules) use (&$errors) {
+            $thisFieldRules = $this->validator->explodeString($strThisFieldRules);
+            foreach ($thisFieldRules as $rule) {
                 if (!$this->validator->{'is' . ucfirst($rule)}($val)) {
                     $errors[] = $key . ' field mast be ' . $rule;
                 }
             }
-        }, array_keys($values), $values, $fieldsRules);
+        }, array_keys($values), $values, $rules);
 
         $this->abortIf($errors);
+    }
+
+    /**
+     * @param array $fields
+     * @return array
+     */
+    protected function getNecessaryRules(array $fields): array
+    {
+        $rules = $this->rules;
+        foreach ($rules as $key => $val) {
+            if (!in_array($key, $fields, true)) {
+                unset($rules[$key]);
+            }
+        }
+        return $rules;
     }
 
     /**
@@ -72,12 +87,18 @@ class BaseController
 
     /**
      * @param array $fields
+     * @param array $rules
      * @return array
      */
-    protected function getCleanPostRequest(array $fields): array
+    protected function getCleanPostRequest(array $fields, array $rules): array
     {
-        foreach ($fields as $field) {
-            $cleanValues[$field] = $this->clean($_POST[$field]) ?? '';
+        foreach ($fields as $key => $field) {
+
+            $cleanValues[$field] = $this->clean($_POST[$field] ?? '');
+
+            if (in_array('bool', $this->validator->explodeString($rules[$field]), true)) {
+                $cleanValues[$field] = (bool)$cleanValues[$field];
+            }
         }
 
         return $cleanValues ?? [];
@@ -90,7 +111,7 @@ class BaseController
     private function getCleanGetRequest(array $fields): array
     {
         return array_map(function (string $key) {
-            return $this->clean($_GET[$key]) ?? '';
+            return $this->clean($_GET[$key] ?? '');
         }, array_keys($fields));
     }
 
@@ -98,11 +119,11 @@ class BaseController
      * @param array $fields
      * @return array
      */
-    protected function validate(array $fields): array
+    protected function getValidated(array $fields): array
     {
-        $values = $this->getCleanPostRequest($fields);
-        $fieldsRules = $this->fieldsRules;
-        $this->checkRules($values, $fieldsRules);
+        $rules = $this->getNecessaryRules($fields);
+        $values = $this->getCleanPostRequest($fields, $rules);
+        $this->checkRules($values, $rules);
 
         return $values;
     }

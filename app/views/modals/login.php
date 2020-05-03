@@ -2,7 +2,7 @@
 $id = 'loginModalCenter';
 $modal ??= false;
 
-if ( DEBUG_MODE && $modal && !empty($_SESSION['login_modal_show'])) {
+if ( $modal && !empty($_SESSION['login_modal_show'])) {
     $m_class = ' show modal_login_yo"';
     //$m_style = ' style="padding-right: 12px; display: block;" aria-modal="true"';
     $m_style = ' style="display: block;" aria-modal="true"';
@@ -41,8 +41,8 @@ if ($modal) {
             </div>
             <div class="modal-body">
                 <form id="login_form" action="/user/authentication" method="post">
-                    <input value="User" name="name" type="text" placeholder="enter your name" required>
-                    <input value="pass123" name="password" type="password" placeholder="enter password" required>
+                    <input name="name" type="text" placeholder="enter your name" required>
+                    <input name="password" type="password" placeholder="enter password" required>
                     <!--<input type="submit" value="go">-->
                 </form>
             </div>

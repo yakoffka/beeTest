@@ -29,6 +29,8 @@ form.add_task label {
     color: #1a6fa8;
 }
 
+
+
 .full-height {
     height: 100vh;
 }
@@ -79,17 +81,19 @@ form.add_task label {
 }
 
 
-input[type="submit"]:hover {
+.sort_th input[type="submit"]:hover {
     color: #09f;
     background-color: transparent;
     border: 0px solid #d7dce2;
 }
-input[type="submit"] {
+.sort_th input[type="submit"] {
     color: #1a6fa8;
     background-color: transparent;
     border: 0px solid #d7dce2;
 }
 
+
+form.add_task input[type="submit"]:hover,
 input[type="submit"].yo_submit:hover,
 button.btn.cancel_b:hover {
     color: #09f;
@@ -99,6 +103,7 @@ button.btn.cancel_b:hover {
     border-left-width: 17px;
 }
 
+form.add_task input[type="submit"],
 input[type="submit"].yo_submit,
 button.btn.cancel_b {
     color: #1a6fa8;

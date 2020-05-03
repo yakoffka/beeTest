@@ -5,7 +5,10 @@ namespace App\routes;
 
 
 use App\controllers\ErrorController;
+use App\controllers\MigrationController;
 use App\controllers\TaskController;
+use App\models\Task;
+use Illuminate\Database\Capsule\Manager as Capsule;
 
 class Route
 {
@@ -14,6 +17,13 @@ class Route
      */
     public static function start(): ?array
     {
+        // Forced initial table migration
+        if (!Capsule::schema()->hasTable(Task::getTableName())) {
+            $controller = new MigrationController();
+            return $controller->refresh();
+        }
+
+
         $URI = explode('/', self::getClearURI());
 
         if (self::isEmptyURI($URI)) {

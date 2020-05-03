@@ -48,7 +48,7 @@ class TaskController extends BaseController
         } else {
             NotificationService::sendError('Failed to add task.');
         }
-        
+
         $this->redirect(APP_URL);
     }
 
@@ -65,21 +65,16 @@ class TaskController extends BaseController
     /**
      * Show the form for editing the specified resource.
      *
-     * @return void|array
+     * @return array
      */
-    public function edit(): ?array
+    public function edit(): array
     {
         $this->checkAuthorizeUser();
-        $task = Task::find($this->getValidatedIDFromGet());
-        
-        if ($task) { // @todo: вынести проверку в $this->getTask() (продумать get and post)
-            return [
-                'view' => 'tasks/show',
-                'task' => $task,
-            ];
-        }
-        
-        $this->redirect(APP_URL);
+        $task = $this->getTaskFrom('GET');
+        return [
+            'view' => 'tasks/show',
+            'task' => $task,
+        ];
     }
 
     /**
@@ -90,7 +85,7 @@ class TaskController extends BaseController
     public function update(): void
     {
         $this->checkAuthorizeUser();
-        $task = $this->getTask();
+        $task = $this->getTaskFrom('POST');
 
         $newProperties = $this->getValidated([
             'description',
@@ -126,7 +121,7 @@ class TaskController extends BaseController
     /**
      * @return int
      */
-    public function getValidatedIDFromGet(): int
+    public function getValidatedIDFromGET(): int
     {
         return $this->clean((int)$_GET['id']);
     }
@@ -134,7 +129,7 @@ class TaskController extends BaseController
     /**
      * @return int
      */
-    public function getValidatedIDFromPost(): int
+    public function getValidatedIDFromPOST(): int
     {
         return $this->clean((int)$_POST['id']);
     }
@@ -192,11 +187,12 @@ class TaskController extends BaseController
     }
 
     /**
+     * @param string $requestMethod
      * @return Task
      */
-    private function getTask(): Task
+    private function getTaskFrom(string $requestMethod): Task
     {
-        $task = Task::find($this->getValidatedIDFromPost());
+        $task = Task::find($this->{'getValidatedIDFrom' . $requestMethod}());
         if (!$task) {
             NotificationService::sendError('Failed to get task.');
             $this->redirect(APP_URL);

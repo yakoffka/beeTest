@@ -160,7 +160,8 @@ table.table th {
     display: block;
 }
 table.table tr th.ellipsis,
-table.table tr td.ellipsis {
+table.table tr td.ellipsis,
+.add_task .ellipsis {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;

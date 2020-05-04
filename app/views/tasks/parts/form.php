@@ -36,31 +36,31 @@ $required ??= ' required';
     <div class="row">
 
         <div class="form-group col-2 pl0">
-            <label for="formGroupExampleInput">your name</label>
+            <label class="ellipsis" for="formGroupExampleInput">name</label>
             <input <?= $user_name ?> name="user_name" type="text" class="form-control" id="formGroupExampleInput"
                                      placeholder="enter your name"<?= $required ?>>
         </div>
 
         <div class="form-group col-2 pl0">
-            <label for="formGroupExampleInput">your email</label>
+            <label class="ellipsis" for="formGroupExampleInput">email</label>
             <input <?= $user_email ?> name="email" pattern=".+@.+\..+" type="email" class="form-control"
                                       id="formGroupExampleInput" placeholder="enter your email"<?= $required ?>>
         </div>
 
         <div class="form-group col-2 pl0">
-            <label for="formGroupExampleInput">task name</label>
+            <label class="ellipsis" for="formGroupExampleInput">task name</label>
             <input <?= $name ?> name="name" type="text" class="form-control" id="formGroupExampleInput"
                                 placeholder="enter task name"<?= $required ?>>
         </div>
 
         <div class="form-group col-5 pl0">
-            <label for="formGroupExampleInput">task description</label>
+            <label class="ellipsis" for="formGroupExampleInput">task description</label>
             <input <?= $description ?> name="description" type="text" class="form-control" id="formGroupExampleInput"
                                        placeholder="enter task description"<?= $required ?>>
         </div>
 
         <div class="form-group col-1 pl0">
-            <label for="formGroupExampleInput">&nbsp;</label>
+            <label class="ellipsis" for="formGroupExampleInput">&nbsp;</label>
             <input type="submit" value="add">
         </div>
 

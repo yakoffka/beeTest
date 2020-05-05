@@ -71,7 +71,6 @@ class TaskController extends BaseController
             $task->{$key} = $val;
         }
 
-        // $task->edited ??= $task->isDirty('description');
         $task->getEditedStatus();
 
         if ($task->save()) {

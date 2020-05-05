@@ -70,7 +70,9 @@ class TaskController extends BaseController
         foreach ($newProperties as $key => $val) {
             $task->{$key} = $val;
         }
-        $task->edited ??= $task->isDirty('description');
+
+        // $task->edited ??= $task->isDirty('description');
+        $task->getEditedStatus();
 
         if ($task->save()) {
             NotificationService::sendInfo('Task ' . $task->name . ' successfully edited!');

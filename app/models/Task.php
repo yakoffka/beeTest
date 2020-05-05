@@ -18,4 +18,15 @@ class Task extends Model
     {
         return with(new static)->getTable();
     }
+
+    /**
+     * @return $this
+     */
+    public function getEditedStatus(): self
+    {
+        if ($this->isDirty('description')) {
+            $this->edited = true;
+        }
+        return $this;
+    }
 }

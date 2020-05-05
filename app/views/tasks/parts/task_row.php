@@ -5,17 +5,25 @@ $tooltip = 'data-toggle="tooltip" data-trigger="click" data-placement="top"';
 
 ?>
 <tr>
-    <td class="ellipsis tr-tooltip" <?= $tooltip ?> title="<?= $task->user_name ?>"><?= $task->user_name ?></td>
-    <td class="ellipsis tr-tooltip" <?= $tooltip ?> title="<?= $task->email ?>"><?= $task->email ?></td>
-    <td class="ellipsis tr-tooltip">
-        <span class="gray"><?= $task->edited ? '[edited]' : '' ?></span>
+    <td class="ellipsis tr-tooltip" <?= $tooltip ?> title="<?= $task->user_name ?>">
+        <?= $task->user_name ?>
+    </td>
 
+    <td class="ellipsis tr-tooltip" <?= $tooltip ?> title="<?= $task->email ?>">
+        <?= $task->email ?>
+    </td>
+
+    <td class="ellipsis tr-tooltip">
         <?php
         include __DIR__ . '/../../modals/task.php';
         ?>
-
     </td>
-    <td class="tac ellipsis"><?= $task->done ? 'done' : ' - ' ?></td>
+
+    <td class="tac ellipsis">
+        <?= $task->done ? '<span class="" title="completed">c</span>' : '' ?>
+        <?= $task->edited ? '<span class="" title="edited">e</span>' : '' ?>
+    </td>
+
     <?php
     if (!empty($_SESSION['name'])) {
         ?>

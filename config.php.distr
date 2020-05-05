@@ -11,4 +11,5 @@ define('APP_USEED', 'http://bee.test/seeder/seedingOnlyUser');
 define('APP_VERSION', '2.0');
 define('TASK_CHUNK', '3');
 define('DEBUG_MODE', true);
+define('SLACK_NOTIFY', false);
 define('SLACK_WEBHOOK_URL', ''); // 'https://hooks.slack.com/services/...'

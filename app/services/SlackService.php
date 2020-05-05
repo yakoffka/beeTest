@@ -19,7 +19,9 @@ class SlackService
 
     public static function sendSimpleMessage(string $message)
     {
-        exec(static::$commandStart . $message . static::$commandEnd);
+        if (SLACK_NOTIFY) {
+            exec(static::$commandStart . $message . static::$commandEnd);
+        }
     }
 
 }

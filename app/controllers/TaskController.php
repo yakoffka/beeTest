@@ -3,97 +3,116 @@
 namespace App\controllers;
 
 use App\models\Task;
+use App\services\NotificationService;
 use Illuminate\Database\Eloquent\Collection;
 
-class TaskController
+class TaskController extends BaseController
 {
+    protected array $rules = [
+        'user_name' => 'required',
+        'email' => 'required|email',
+        'name' => 'required',
+        'description' => 'required',
+        'done' => 'bool',
+    ];
+
     /**
+     * Display a listing of the resource and form for creating a new resource.
      * @return array
      */
-    public static function index(): array
+    public function index(): array
     {
         return [
             'view' => 'tasks/index',
-            'tasks' => self::getTasks(),
-            'currPage' => self::getCurrentPage(),
+            'tasks' => $this->getTasks(),
+            'currPage' => $this->getCurrentPage(),
         ];
     }
 
     /**
+     * Store a newly created resource in storage.
+     *
      * @return void
      */
-    public static function create(): void
+    public function store(): void
     {
-        $task = Task::create(self::getValidatedData());
+        $task = Task::create($this->getValidated([
+            'user_name',
+            'email',
+            'name',
+            'description',
+        ]));
 
         if ($task) {
-            $_SESSION['reportSuccess'][] = 'Task ' . $task->name . ' successfully added!';
+            NotificationService::sendInfo('Task ' . $task->name . ' successfully added!');
         } else {
-            $_SESSION['reportErrors'][] = 'Failed to add task.';
+            NotificationService::sendError('Failed to add task.');
         }
-        header('Location: ' . APP_URL);
-        die();
+
+        $this->redirect(APP_URL);
     }
 
     /**
-     * show form
-     * @return void|array
-     */
-    public static function edit(): ?array
-    {
-        self::authorizeUser();
-        $task = Task::find(self::getValidatedIDFromGet());
-        if ($task) {
-            return [
-                'view' => 'tasks/show',
-                'task' => $task,
-            ];
-        }
-        header('Location: ' . APP_URL);
-    }
-
-    /**
-     * @return int
-     */
-    public static function getValidatedIDFromGet(): int
-    {
-        return self::clean((int)$_GET['id']);
-    }
-
-    /**
+     * Update the specified resource in storage.
+     *
      * @return void
      */
-    public static function update(): void
+    public function update(): void
     {
-        self::authorizeUser();
-        $task = self::getTask();
-        self::updateEdited($task);
-        header('Location: ' . APP_URL);
+        $this->checkAuthorizeUser();
+        $task = $this->getTaskFrom('POST');
+
+        $newProperties = $this->getValidated([
+            'description',
+            'done',
+        ]);
+
+        foreach ($newProperties as $key => $val) {
+            $task->{$key} = $val;
+        }
+
+        $task->getEditedStatus();
+
+        if ($task->save()) {
+            NotificationService::sendInfo('Task ' . $task->name . ' successfully edited!');
+        } else {
+            NotificationService::sendError('Failed to edited task.');
+        }
+
+        $this->redirect(APP_URL);
     }
 
     /**
      * @return int
      */
-    public static function getValidatedIDFromPost(): int
+    public function getValidatedIDFromGET(): int
     {
-        return self::clean((int)$_POST['id']);
+        return $this->clean((int)$_GET['id']);
     }
 
     /**
-     * sorting task list
+     * @return int
      */
-    public static function setSort(): void
+    public function getValidatedIDFromPOST(): int
     {
-        $nameField = self::clean($_POST['sort']) ?? 'id';
+        return $this->clean((int)$_POST['id']);
+    }
+
+    /**
+     * Sorting task list
+     */
+    public function setSort(): void
+    {
+        $nameField = $this->clean($_POST['sort'] ?? 'id');
         $_SESSION['sortName'] = $nameField;
         $_SESSION['sortDesc'] = ($_SESSION['sortDesc'] === '1') ? '0' : '1';
-        header('Location: ' . APP_URL);
+        $this->redirect(APP_URL);
     }
 
     /**
      * @return array
      */
-    private static function getSortField(): array
+    private function getSortField(): array
     {
         $sortField = !empty($_SESSION['sortName']) ? $_SESSION['sortName'] : 'id';
         $descending = $_SESSION['sortDesc'] ?? '0';
@@ -103,42 +122,17 @@ class TaskController
     /**
      * @return int
      */
-    private static function getCurrentPage(): int
+    private function getCurrentPage(): int
     {
-        return !empty($_GET['page']) ? self::clean((int)($_GET['page'])) : 1;
-    }
-
-    /**
-     * @return array
-     */
-    private static function getValidatedData(): array
-    {
-        $taskData = self::getCleanCreateData();
-
-        $reportErrors = [];
-        foreach ($taskData as $nameField => $value) {
-            if ($value === '') {
-                $reportErrors[] = $nameField . ' field must be filled';
-            }
-            if (($nameField === 'email') && preg_match('~.+@.+\..+~', $value) !== 1) {
-                $reportErrors[] = 'Field ' . $nameField . ' is not valid';
-            }
-        }
-
-        if (!empty($reportErrors)) {
-            $_SESSION['reportErrors'] = $reportErrors;
-            header('Location: ' . APP_URL);
-            die();
-        }
-        return $taskData;
+        return !empty($_GET['page']) ? $this->clean((int)($_GET['page'])) : 1;
     }
 
     /**
      * @return Collection
      */
-    private static function getTasks(): Collection
+    private function getTasks(): Collection
     {
-        [$sortField, $descending] = self::getSortField();
+        [$sortField, $descending] = $this->getSortField();
         return Task::query()
             ->where('id', '>', 0)
             ->get()
@@ -147,78 +141,27 @@ class TaskController
     }
 
     /**
-     * @return array
+     * User authorization check
      */
-    private static function getCleanCreateData(): array
-    {
-        return [
-            'user_name' => self::clean($_POST['user_name']) ?? '',
-            'email' => self::clean($_POST['email']) ?? '',
-            'name' => self::clean($_POST['name']) ?? '',
-            'description' => self::clean($_POST['description']) ?? ''
-        ];
-    }
-
-    /**
-     * @return array
-     */
-    private static function getCleanUpdateData(): array
-    {
-        return [
-            'description' => self::clean($_POST['description'] ?? ''),
-            'done' => self::clean($_POST['done'] ?? '') ? '1' : '0',
-        ];
-    }
-
-    /**
-     * @param string $input
-     * @return string
-     */
-    public static function clean(string $input): string
-    {
-        return trim(htmlspecialchars(strip_tags($input)));
-    }
-
-    /**
-     * user authorization check
-     */
-    private static function authorizeUser(): void
+    private function checkAuthorizeUser(): void
     {
         if (empty($_SESSION['name'])) {
-            header('Location: ' . LOGIN_URL);
-            die();
+            $_SESSION['login_modal_show'] = ' show';
+            $this->redirect(APP_URL);
         }
     }
 
     /**
-     * @return Task|null
+     * @param string $requestMethod
+     * @return Task
      */
-    private static function getTask(): ?Task
+    private function getTaskFrom(string $requestMethod): Task
     {
-        $task = Task::find(self::getValidatedIDFromPost());
+        $task = Task::find($this->{'getValidatedIDFrom' . $requestMethod}());
         if (!$task) {
-            $_SESSION['reportErrors'][] = 'Failed to edited task.';
-            header('Location: ' . APP_URL);
+            NotificationService::sendError('Failed to get task.');
+            $this->redirect(APP_URL);
         }
         return $task;
-    }
-
-    /**
-     * @param $task
-     */
-    private static function updateEdited($task): void
-    {
-        $dataFromRequest = self::getCleanUpdateData();
-        $task->description = $dataFromRequest['description'];
-        $task->done = $dataFromRequest['done'];
-        if ($task->isDirty('description')) {
-            $task->edited = true;
-        }
-
-        if ($task->save()) {
-            $_SESSION['reportSuccess'][] = 'Task ' . $task->name . ' successfully edited!';
-        } else {
-            $_SESSION['reportErrors'][] = 'Failed to edited task.';
-        }
     }
 }

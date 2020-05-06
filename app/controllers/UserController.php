@@ -3,114 +3,62 @@
 namespace App\controllers;
 
 use App\models\User;
+use App\services\NotificationService;
 
-class UserController
+class UserController extends BaseController
 {
-    /**
-     * @param string $name
-     * @param string $email
-     * @param string $password
-     */
-    public static function create(string $name, string $email, string $password): void
-    {
-        $userData = self::getUserData($name, $email, $password);
-
-        if (User::query()->firstWhere('email', '=', $email)) {
-            $_SESSION['reportSuccess'][] = 'User already seeded!';
-            header('Location: ' . APP_URL);
-            die();
-        }
-
-        $user = User::create($userData);
-        if ($user) {
-            $_SESSION['reportSuccess'][] = 'User ' . $user->name . ' successfully seeded!';
-        } else {
-            $_SESSION['reportErrors'][] = 'Failed to seeded user.';
-        }
-        header('Location: ' . APP_URL);
-        // die();
-    }
+    protected array $rules = [
+        'name' => 'required',
+        'email' => 'required|email',
+        'password' => 'required',
+    ];
 
     /**
-     * @param string $name
-     * @param string $email
-     * @param string $password
-     * @return string[]
+     * User entry into the application
      */
-    private static function getUserData(string $name, string $email, string $password): array
+    public function authentication(): void
     {
-        return [
-            'name' => $name,
-            'email' => $email,
-            'password' => password_hash($password, PASSWORD_BCRYPT, ['cost' => 10,]),
-        ];
-    }
+        $userData = $this->getValidated([
+            'name',
+            'password',
+        ]);
 
-    /**
-     * show login form
-     * @return array|string[]
-     */
-    public static function login(): array
-    {
-        return ['view' => 'users/login',];
-    }
-
-    public static function authentication(): void
-    {
-        $userData = self::getValidatedData();
-        $user = User::query()->whereName($userData['name'])->first();
+        $user = $this->getUserByName($userData['name']);
 
         if (password_verify($userData['password'], $user->password)) {
-            $_SESSION['reportSuccess'][] = 'Hello! You are logged in as ' . $user->name . '.';
+            NotificationService::sendInfo('Hello! You are logged in as ' . $user->name);
             $_SESSION['name'] = $user->name;
-            header('Location: ' . APP_URL);
-            die();
+            $this->redirect(APP_URL);
         }
 
-        $_SESSION['reportErrors'][] = 'failed authentication!';
-        header('Location: ' . LOGIN_URL);
-        die();
+        NotificationService::sendError('failed authentication!');
+        $_SESSION['login_modal_show'] = ' show';
+        $this->redirect(APP_URL);
     }
 
-    public static function logout(): void
+    /**
+     * Logging out a user
+     */
+    public function logout(): void
     {
         unset($_SESSION['name']);
-        $_SESSION['reportSuccess'][] = 'see you..';
-        header('Location: ' . APP_URL);
-        die();
+        NotificationService::sendInfo('see you..');
+        $this->redirect(APP_URL);
     }
 
     /**
-     * @return array
+     * @param $name
+     * @return User
      */
-    private static function getValidatedData(): array
+    protected function getUserByName($name): User
     {
-        $userData = self::getDataFromRequest();
-
-        $reportErrors = [];
-        foreach ($userData as $nameField => $value) {
-            if ($value === '') {
-                $reportErrors[] = $nameField . ' field must be filled';
-            }
+        $user = User::query()->whereName($name)->first();
+        if ($user) {
+            return $user;
         }
 
-        if (!empty($reportErrors)) {
-            $_SESSION['reportErrors'] = $reportErrors;
-            header('Location: ' . LOGIN_URL);
-            die();
-        }
-        return $userData;
+        NotificationService::sendError('failed authentication!');
+        $_SESSION['login_modal_show'] = ' show';
+        $this->redirect(APP_URL);
     }
-
-    /**
-     * @return array
-     */
-    private static function getDataFromRequest(): array
-    {
-        return [
-            'name' => $_POST['name'],
-            'password' => $_POST['password'],
-        ];
-    }
-
 }

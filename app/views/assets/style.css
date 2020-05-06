@@ -8,6 +8,34 @@ html, body {
     text-align: center;
 }
 
+a.cursor_pointer {
+    cursor: pointer;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #09c;
+}
+
+h5.modal-title {
+    color: #09f;
+}
+
+/*.task-list {
+    height: 250px;
+}*/
+form.add_task .pl0 {
+    padding-left: 0;
+    padding-right: 5px;
+}
+
+form.add_task label {
+    text-align: left;
+    display: block;
+    padding-left: .7em;
+    color: #1a6fa8;
+}
+
+
 .full-height {
     height: 100vh;
 }
@@ -39,6 +67,7 @@ html, body {
 .links {
     padding: 2em;
 }
+
 .links > a {
     color: #636b6f;
     padding: 0 25px;
@@ -54,27 +83,57 @@ html, body {
 }
 
 .navbar.navbar-dark.bg-dark.shadow-sm {
-    margin-bottom: 2em;
+    margin-bottom: 1em;
 }
 
-table.table input[type="submit"] {
-    color: #1a6fa8;
-    border: 0px solid transparent;
+
+.sort_th input[type="submit"]:hover {
+    color: #09f;
     background-color: transparent;
-    cursor: pointer;
+    border: 0px solid #d7dce2;
 }
-input[type="submit"] {
+
+.sort_th input[type="submit"] {
     color: #1a6fa8;
-    border: 5px solid #cfd8e2;
+    background-color: transparent;
+    border: 0px solid #d7dce2;
+}
+
+
+form.add_task input[type="submit"]:hover,
+input[type="submit"].yo_submit:hover,
+button.btn.cancel_b:hover {
+    color: #09f;
+    background-color: #d7dce2;
+    border: 7px solid #d7dce2;
+    border-right-width: 17px;
+    border-left-width: 17px;
+}
+
+form.add_task input[type="submit"],
+input[type="submit"].yo_submit,
+button.btn.cancel_b {
+    color: #1a6fa8;
+    border: 7px solid #cfd8e2;
     border-right-width: 17px;
     border-left-width: 17px;
     background-color: #cfd8e2;
     cursor: pointer;
-}
-input[type="submit"]:hover {
-    color: #09f;
+    border-radius: 2px;
 }
 
+button.btn.cancel_b:hover {
+    color: #93333d;
+}
+
+button.btn.cancel_b {
+    color: #93333d;
+}
+
+
+table.table th {
+    border-top: none;
+}
 
 .page-item.active .page-link {
     color: #09f;
@@ -83,62 +142,112 @@ input[type="submit"]:hover {
     /*border-color: #ababb3;*/
     border-color: #dee2e6;
 }
+
 .page-link {
     color: #09f;
 }
 
 
-
 table.table {
-    margin-bottom: 3rem;
+    /*margin-bottom: 3rem;*/
     table-layout: fixed;
 }
+
 table.table a {
     color: #636b6f;
 }
+
 table.table a:hover {
     color: #09f;
     text-decoration: none;
 }
+
 table.table td,
 table.table th {
     text-align: left;
 }
+
 .block {
     display: block;
 }
+
 table.table tr th.ellipsis,
-table.table tr td.ellipsis {
+table.table tr td.ellipsis,
+.add_task .ellipsis {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
 }
+
+table.table tr td.ellipsis .modal-body {
+    overflow: visible;
+    white-space: normal;
+    text-overflow: clip;
+}
+
 table.table tr th.tac,
 table.table tr td.tac {
     text-align: center
 }
 
+.table th {
+    padding: .6rem;
+}
+
+.table td {
+    padding: .45rem;
+}
 
 .pagination {
     padding-left: .4em;
 }
+
 .pagination {
     font-size: .9em;
 }
+
 .page-link {
     padding: .3rem .6rem;
 }
 
+.pagination ul.pagination {
+    margin-bottom: 0;
+}
+
+.pagination ul.pagination .page-link.dump {
+    border: 1px solid transparent;
+    cursor: default;
+}
+
+.pagination ul.pagination .page-link.dump:hover {
+    background-color: transparent;
+}
 
 .empty_list {
     text-align: center;
     padding: 5%;
-    margin: auto;
+    margin: 0 25%;
+    min-width: 50%;
+
+    position: absolute;
+    top: 6em;
+    left: 1em;
+    opacity: 70%;
+    z-index: 5;
+    border: 1px solid #cfd8e2;
+    border-radius: 3px;
+    background-color: #fff;
+    color: #09f;
+    font-size: 1.4em;
 }
 
 .toasts {
-    position: absolute; top: 5em; right: 7em;
+    position: absolute;
+    top: 5em;
+    right: 7em;
+    z-index: 6;
 }
+
 .toasts .toast {
     min-width: 300px;
 }
@@ -165,15 +274,19 @@ table.table tr td.tac {
 .bs-tooltip-top .arrow::before, .bs-tooltip-auto[x-placement^="top"] .arrow::before {
     border-top-color: #0099ff; /* цвет стрелочки (по умолчанию #000)*/
 }
+
 .bs-tooltip-right .arrow::before, .bs-tooltip-auto[x-placement^="right"] .arrow::before {
     border-right-color: #0099ff; /* цвет стрелочки (по умолчанию #000)*/
 }
+
 .bs-tooltip-bottom .arrow::before, .bs-tooltip-auto[x-placement^="bottom"] .arrow::before {
     border-bottom-color: #0099ff; /* цвет стрелочки (по умолчанию #000) */
 }
+
 .bs-tooltip-left .arrow::before, .bs-tooltip-auto[x-placement^="left"] .arrow::before {
     border-left-color: #0099ff; /* цвет стрелочки (по умолчанию #000) */
 }
+
 .tooltip-inner {
     max-width: 800px; /* максимальная ширина подсказки (по умолчанию 200px) */
     color: #fff; /* цвет шрифта */
@@ -186,4 +299,85 @@ table.table tr td.tac {
     color: #b5cae2;
 }
 
+.gray.created_at {
+    color: #b5cae2;
+    font-size: 1rem;
+}
 
+.mark {
+    color: #fff;
+    background-color: #228b22;
+    border: 1px solid #186518;
+    border-radius: 3px;
+}
+
+.mark.round {
+    width: 2em;
+    height: 2em;
+    border-radius: 1em;
+}
+
+.mark.edited {
+    background-color: #09f;
+    border: 1px solid #09c;
+}
+
+
+/*
+    <div class="session after">
+        <?php
+        echo '<pre>$_SESSION after:' . print_r($_SESSION, true) . '</pre>';
+        ?>
+    </div>
+ */
+.session {
+    position: absolute;
+    top: 1em;
+    left: 1em;
+    opacity: 70%;
+    z-index: 5;
+    text-align: left;
+    border: 1px solid #cfd8e2;
+    border-radius: 3px;
+    background-color: #fff;
+    padding: 1em;
+}
+
+.session.after {
+    left: 40%;
+}
+
+
+.modal-dialog {
+    max-width: 50%;
+}
+
+
+#loginModalCenter.modal_login_yo {
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 5;
+}
+
+#loginModalCenter.modal_login_yo a.modal_close_yo {
+    text-decoration: none;
+}
+
+#loginModalCenter.modal_login_yo button.btn.cancel_b:hover a {
+    color: #93333d;
+}
+
+#loginModalCenter.modal_login_yo button.btn.cancel_b a {
+    color: #93333d;
+}
+
+
+.show_task .modal-footer {
+    justify-content: space-around;
+}
+
+
+#info .modal-dialog {
+    max-width: 60%;
+    justify-content: space-around;
+    text-align: left;
+}

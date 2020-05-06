@@ -6,7 +6,7 @@ namespace App\controllers;
 
 class ErrorController
 {
-    public static function show(): array
+    public function index(): array
     {
         return ['view' => 'errors/404'];
     }

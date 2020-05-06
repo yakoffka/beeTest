@@ -1,12 +1,6 @@
 <h2>Task list</h2>
-<div class="row">
-    <?php
-    if (!isset($tasks)) {
-        $tasks = null;
-    }
-    if (count($tasks) > 0) {
-    require __DIR__ . '/pagination.php';
-    ?>
+<div class="row task-list">
+
     <table class="table">
         <tr>
             <th scope="col" class="sort_th" style="width: 8%">
@@ -32,7 +26,7 @@
                     <input type="hidden" name="sort" value="description">
                     <input type="hidden" name="desc"
                            value="<?= (!empty($_SESSION['sortName']) && $_SESSION['sortName'] === 'user_name') && (!empty($_SESSION['desc']) && $_SESSION['desc'] === 'asc') ? 'desc' : 'asc' ?>">
-                    <input type="submit" value="description">
+                    <input type="submit" value="task description">
                 </form>
             </th>
 
@@ -61,18 +55,40 @@
             ?>
         </tr>
 
+
         <?php
-        if (!isset($vars)) {
-            $vars = [];
+        $tasks ??= [];
+        $dump = '<tr><td>&nbsp;</td><td></td><td></td><td></td>' . (empty($_SESSION['name']) ? '' : '<td></td>') . '</tr>';
+
+        if (count($tasks) > 0) {
+
+            if (!isset($vars)) {
+                $vars = [];
+            }
+            foreach ($tasks[($vars['currPage'] - 1)] as $task) {
+                require __DIR__ . '/task_row.php';
+            }
+
+            $i = count($tasks[($vars['currPage'] - 1)]);
+            while ($i < TASK_CHUNK) {
+                echo $dump;
+                $i++;
+            }
+
+        } else {
+
+            for ($i = 0; $i < TASK_CHUNK; $i++) {
+                echo $dump;
+            }
+
+            // echo '<div class="empty_list">The list of tasks is still empty.<br>But you can add the first task!</div>';
         }
-        foreach ($tasks[($vars['currPage'] - 1)] as $task) {
-            require __DIR__ . '/task_row.php';
-        }
+
         ?>
     </table>
 
-<?php
-} else {
-    echo '<div class="empty_list">The list of tasks is still empty. But you can add the first task!</div>';
-}
-echo '</div>';
+    <?php
+    require __DIR__ . '/pagination.php';
+    ?>
+
+</div>

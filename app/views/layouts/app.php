@@ -47,6 +47,9 @@
     <div class="links">
 
         <?php
+
+        include __DIR__ . '/../modals/info.php';
+
         if (!empty($_SESSION['name'])) {
             echo '<a href="/user/logout">logout</a>';
         } else {

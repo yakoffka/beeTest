@@ -12,6 +12,10 @@ a.cursor_pointer {
     cursor: pointer;
 }
 
+h1, h2, h3, h4, h5, h6 {
+    color: #09c;
+}
+
 h5.modal-title {
     color: #09f;
 }
@@ -369,4 +373,11 @@ table.table tr td.tac {
 
 .show_task .modal-footer {
     justify-content: space-around;
+}
+
+
+#info .modal-dialog {
+    max-width: 60%;
+    justify-content: space-around;
+    text-align: left;
 }

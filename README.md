@@ -1,5 +1,6 @@
-# beeTest
-test task
+# task-list
+
+The administrator has the ability to edit text tasks and mark the completion of the task.
 
 #### timeline
 ###### day 1

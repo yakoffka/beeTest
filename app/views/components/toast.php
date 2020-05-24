@@ -5,7 +5,7 @@ $color ??= '00ccff';
 $mess ??= 'something happened..';
 
 ?>
-<div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="<?= ($n * 2 + 3) ?>0000">
+<div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="<?= ($n * 2 + 3) ?>000">
     <div class="toast-header">
         <svg class="bd-placeholder-img mr-2 rounded-circle" width="20" height="20" xmlns="http://www.w3.org/2000/svg"
              preserveAspectRatio="xMidYMid slice" focusable="false" role="img">

@@ -18,7 +18,7 @@
             $mess = $reportError;
             require __DIR__ . '/toast.php';
         }
-        unset($_SESSION['warning'])    ;
+        unset($_SESSION['warning']);
     }
 
     if (!empty($_SESSION['info'])) {
@@ -28,7 +28,7 @@
             $mess = $reportError;
             require __DIR__ . '/toast.php';
         }
-        unset($_SESSION['info'])    ;
+        unset($_SESSION['info']);
     }
 
     ?>

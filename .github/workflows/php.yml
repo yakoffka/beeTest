@@ -35,7 +35,7 @@ jobs:
   #
   #   # - name: Run test suite
   #   #   run: composer run-script test
-    
+
   # ya update
   deploy:
     runs-on: ubuntu-latest
@@ -43,7 +43,7 @@ jobs:
       - name: Checkout
         uses: action/checkout@v2
       - name: Deployment
-        uses: appleboy/ssh-action@main
+        uses: appleboy/ssh-action@master
         with:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           host: ${{ secrets.SSH_HOST }}

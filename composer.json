@@ -3,7 +3,7 @@
     "description": "test task",
     "type": "project",
     "require": {
-        "illuminate/database": "7.9.2.*"
+        "illuminate/database": "7.30.4"
     }
     ,
     "require-dev": {
